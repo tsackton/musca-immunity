@@ -1,6 +1,7 @@
 #Final Version. April 2015
 
 #load data into R and check for consistency#
+#This code loads transcript and protein ids, protein lengthts, phylostratigraphic data, immune hmm calls, signal peptide inference, and orthogroup data from the OMA/Treefix pipeline
 
 #get transcripts
 isokey<-read.table("data/mdom.final.rnakey", header=F)

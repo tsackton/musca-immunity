@@ -52,6 +52,9 @@ heatmap.2(distsRL, col=rev(hmcol), symm=T, trace="none", key=F)
 #PCA
 plotPCA(rld, intgroup=c("cond"))
 
+#Dispersion plot
+plotDispEsts(des.rsem.analysis)
+
 #difexp has RSEM/DESeq analysis
 difexp=as.data.frame(des.rsem.results)
 

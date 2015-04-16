@@ -60,3 +60,5 @@ difexp=as.data.frame(des.rsem.results)
 
 #write table
 write.table(difexp, file="data/mdom.difexp.tsv", sep="\t", quote=F, row.names=F)
+
+

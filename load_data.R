@@ -111,4 +111,9 @@ names(strata.age)=c("strata", "min.age")
 protlen<-read.table("data/mdom.final.proteins.fa.lengths", header=F)
 names(protlen)=c("isoform", "length")
 
+#run difexp analysis,saving diagnostic plots to a PDF file
+pdf(file="difexp_plots.pdf")
+source("difexp.R")
+dev.off()
+
 ##END##

@@ -33,7 +33,7 @@ mdom.imm = mdom.imm[!duplicated(mdom.imm$prot),]
 dmel.imm<-read.table("data/dmel-immune.txt", sep="\t", header=T)
 
 #basic ogs stats
-ogs.ct<-read.table("data/ogs_stats.txt", header=T)
+ogs.ct<-read.table("data/ogs_stats.txt", header=T, stringsAsFactors=F)
 mdom.ogs.key<-read.table("data/mdom_to_ogs.txt", header=T)
 mdom.ogs.key$mdomid=sub("_XP_\\d+.*$", "", mdom.ogs.key$mdomid, perl=T)
 mdom.ogs.key$mdomid=sub("_PASA\\d+_model.*", "", mdom.ogs.key$mdomid, perl=T)
@@ -57,7 +57,7 @@ names(mdom.genes)[2]="gene"
 #mdom.genes now has strata and OGS info for all protein-coding genes in the genome
 
 #read treefix data
-dup.ct<-read.table("data/ogs_dup_ct.txt", header=T)
+dup.ct<-read.table("data/ogs_dup_ct.txt", header=T, stringsAsFactors=F)
 dmel.mdom.hom<-read.table("data/dmel_mdom_homology.txt", header=T)
 dmel.mdom.hom$mdom=sub("_XP_\\d+.*$", "", dmel.mdom.hom$mdom, perl=T)
 dmel.mdom.hom$mdom=sub("_PASA\\d+_model.*", "", dmel.mdom.hom$mdom, perl=T)

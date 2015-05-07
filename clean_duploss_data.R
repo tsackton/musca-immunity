@@ -84,6 +84,17 @@ root.pois$count<-as.numeric(root.pois$count)
 sch.pois<-merge(dup.ct.sch, ultra.edges, by.x="treefix", by.y="treefix")
 sch.pois$count<-as.numeric(sch.pois$count)
 
+#add event counts
+require(plyr)
+
+cons.event<-ddply(cons.pois[cons.pois$type=="total",], .(ogs), summarize, events=sum(count))
+root.event<-ddply(root.pois[root.pois$type=="total",], .(ogs), summarize, events=sum(count))
+sch.event<-ddply(sch.pois[root.pois$type=="total",], .(ogs), summarize, events=sum(count))
+
+cons.pois<-merge(cons.pois, cons.event, by="ogs")
+root.pois<-merge(root.pois, root.event, by="ogs")
+sch.pois<-merge(sch.pois, sch.event, by="ogs")
+
 #write cleaned output
 write.table(cons.pois, "./data/musca_counts_for_poisson_cons.tsv", sep="\t", row.names=F, quote=F)
 write.table(root.pois, "./data/musca_counts_for_poisson_root.tsv", sep="\t", row.names=F, quote=F)

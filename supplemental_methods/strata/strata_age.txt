@@ -1,0 +1,13 @@
+Schizophora	48
+Muscidae	0
+Calyptratae	44
+Diptera	275
+Cyclorrhapha	85
+Endopterygota	350
+Insecta	355
+Arthropoda	642
+Ecdysozoa	727
+Protostomia	790
+Bilateria	910
+Metazoa	1036
+Opisthokont	1368

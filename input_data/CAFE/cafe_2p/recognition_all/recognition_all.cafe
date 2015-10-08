@@ -1,0 +1,9 @@
+#!/n/home12/tsackton/sw/bin/cafe
+tree (((musDom:52,gloMor:52):52,((droWil:56,(droPse:48,((droYak:14,droMel:14):17,droAna:31):17):8):8,(droVir:32,droMoj:32):32):39):184,((culQui:79,aedAeg:79):79,(anoDar:70,(anoSte:35,anoGam:35):35):88):129)
+load -i recognition_all.tab -t 12 -l ./recognition_all.log -p 0.01 -filter 
+lambdamu -s
+report recognition_all_lambdamu
+lambdamu -s -t (((2,1)1,((1,(1,((1,1)1,1)1)1)1,(1,1)1)1)1,((1,1)1,(1,(1,1)1)1)1)
+report recognition_all_lambdamu_musca
+lambdamu -s -t (((2,3)1,((5,(5,((5,5)5,5)5)5)5,(5,5)5)1)1,((4,4)4,(4,(4,4)4)4)1)
+report recognition_all_lambdamu_clade

@@ -2,8 +2,8 @@
 require(ape)
 
 #load RAxML tree into R
-dipt.tree<-read.tree(file="../data/ultra.reroot.nwk")
-spec.tree<-read.tree(file="../data/dipt.tree")
+dipt.tree<-read.tree(file="../supplemental_methods/ultrametric/ultra.reroot.nwk")
+spec.tree<-read.tree(file="../supplemental_methods/orthology/dipt.tree")
 #compute ultrametric tree using chronos function in ape package
 
 #make list of known dates -- this is not meant to be 100% accurate
@@ -23,10 +23,10 @@ dipt.cafe$edge.length = round(dipt.cafe$edge.length,0)
 dipt.cafe.nocal$edge.length = round(dipt.cafe.nocal$edge.length,0)
 
 #write ultrametric tree as newick
-write.tree(dipt.ultra, file="../data/ultra.final.nwk")
-write.tree(dipt.ultra.nocal, file="../data/ultra.final.nocal.nwk")
-write.tree(dipt.cafe, file="../data/ultra.forcafe.nwk")
-write.tree(dipt.cafe.nocal, file="../data/ultra.forcafe.nocal.nwk")
+write.tree(dipt.ultra, file="../results/ultra.final.nwk")
+write.tree(dipt.ultra.nocal, file="../results/ultra.final.nocal.nwk")
+write.tree(dipt.cafe, file="../results/ultra.forcafe.nwk")
+write.tree(dipt.cafe.nocal, file="../results/ultra.forcafe.nocal.nwk")
 
 #done with ultrametric tree construction
 
@@ -123,7 +123,7 @@ sch.pois$subset="sch"
 all.pois<-rbind(cons.pois, root.pois, sch.pois)
 
 #write cleaned output
-write.table(all.pois, "../data/musca_counts_for_poisson.tsv", sep="\t", row.names=F, quote=F)
+write.table(all.pois, "../untracked_data/musca_counts_for_poisson.tsv", sep="\t", row.names=F, quote=F)
 
 #now make the same set of outputs but with species counts for CAFE
 #in this case, include full set (not filtered for events) and filtered set (events>=1), except for sch only which by definition has more than one event (loss in mosquitoes)
@@ -136,8 +136,8 @@ cons.cafe<-merge(ogs.for.cafe, cons.event, by="ogs")
 root.cafe<-merge(ogs.for.cafe, root.event, by="ogs")
 sch.cafe<-merge(ogs.for.cafe, sch.event, by="ogs")
 
-write.table(cons.cafe[cons.cafe$events>0,c(1:16)], "../data/ogs_cafe_filt_cons.tsv", sep="\t", row.names=F, quote=F)
-write.table(cons.cafe[,c(1:16)], "../data/ogs_cafe_cons.tsv", sep="\t", row.names=F, quote=F)
-write.table(root.cafe[cons.cafe$events>0,c(1:16)], "../data/ogs_cafe_filt_root.tsv", sep="\t", row.names=F, quote=F)
-write.table(root.cafe[,c(1:16)], "../data/ogs_cafe_root.tsv", sep="\t", row.names=F, quote=F)
-write.table(sch.cafe[,c(1:16)], "../data/ogs_cafe_sch.tsv", sep="\t", row.names=F, quote=F)
+write.table(cons.cafe[cons.cafe$events>0,c(1:16)], "../results/ogs_cafe_filt_cons.tsv", sep="\t", row.names=F, quote=F)
+write.table(cons.cafe[,c(1:16)], "../results/ogs_cafe_cons.tsv", sep="\t", row.names=F, quote=F)
+write.table(root.cafe[cons.cafe$events>0,c(1:16)], "../results/ogs_cafe_filt_root.tsv", sep="\t", row.names=F, quote=F)
+write.table(root.cafe[,c(1:16)], "../results/ogs_cafe_root.tsv", sep="\t", row.names=F, quote=F)
+write.table(sch.cafe[,c(1:16)], "../results/ogs_cafe_sch.tsv", sep="\t", row.names=F, quote=F)

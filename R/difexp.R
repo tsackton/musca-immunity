@@ -4,18 +4,18 @@ require(gplots)
 require(RColorBrewer)
 
 #load rsem results
-rsem.inf1.g <- read.table("../rsem/fem_inf1.genes.results", header=T)
-rsem.inf1.i <- read.table("../rsem/fem_inf1.isoforms.results", header=T)
-rsem.inf2.g <- read.table("../rsem/fem_inf2.genes.results", header=T)
-rsem.inf2.i <- read.table("../rsem/fem_inf2.isoforms.results", header=T)
-rsem.inf3.g <- read.table("../rsem/fem_inf3.genes.results", header=T)
-rsem.inf3.i <- read.table("../rsem/fem_inf3.isoforms.results", header=T)
-rsem.unf1.g <- read.table("../rsem/fem_st1.genes.results", header=T)
-rsem.unf1.i <- read.table("../rsem/fem_st1.isoforms.results", header=T)
-rsem.unf2.g <- read.table("../rsem/fem_st2.genes.results", header=T)
-rsem.unf2.i <- read.table("../rsem/fem_st2.isoforms.results", header=T)
-rsem.unf3.g <- read.table("../rsem/fem_st3.genes.results", header=T)
-rsem.unf3.i <- read.table("../rsem/fem_st3.isoforms.results", header=T)
+rsem.inf1.g <- read.table("../input_data/rsem/fem_inf1.genes.results", header=T)
+rsem.inf1.i <- read.table("../input_data/rsem/fem_inf1.isoforms.results", header=T)
+rsem.inf2.g <- read.table("../input_data/rsem/fem_inf2.genes.results", header=T)
+rsem.inf2.i <- read.table("../input_data/rsem/fem_inf2.isoforms.results", header=T)
+rsem.inf3.g <- read.table("../input_data/rsem/fem_inf3.genes.results", header=T)
+rsem.inf3.i <- read.table("../input_data/rsem/fem_inf3.isoforms.results", header=T)
+rsem.unf1.g <- read.table("../input_data/rsem/fem_st1.genes.results", header=T)
+rsem.unf1.i <- read.table("../input_data/rsem/fem_st1.isoforms.results", header=T)
+rsem.unf2.g <- read.table("../input_data/rsem/fem_st2.genes.results", header=T)
+rsem.unf2.i <- read.table("../input_data/rsem/fem_st2.isoforms.results", header=T)
+rsem.unf3.g <- read.table("../input_data/rsem/fem_st3.genes.results", header=T)
+rsem.unf3.i <- read.table("../input_data/rsem/fem_st3.isoforms.results", header=T)
 
 #set up data
 rsem.gene.counts=cbind(rsem.unf1.g$exp, rsem.unf2.g$exp, rsem.unf3.g$exp, rsem.inf1.g$exp, rsem.inf2.g$exp, rsem.inf3.g$exp)
@@ -59,6 +59,6 @@ plotDispEsts(des.rsem.analysis)
 difexp=as.data.frame(des.rsem.results)
 
 #write table
-write.table(difexp, file="../data/mdom.difexp.tsv", sep="\t", quote=F, row.names=F)
+write.table(difexp, file="../results/mdom.difexp.tsv", sep="\t", quote=F, row.names=F)
 
 

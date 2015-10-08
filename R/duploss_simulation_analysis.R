@@ -2,7 +2,7 @@
 #requires objects from clean_duploss_data.R so run that first
 #focus on just the root subset for now
 
-sim.ct<-read.table("../data/sim_dup_ct.txt", header=T, stringsAsFactors=F)
+sim.ct<-read.table("../input_data/simulations/sim_dup_ct.txt", header=T, stringsAsFactors=F)
 
 #clean up for analysis
 require(reshape2)
@@ -38,7 +38,7 @@ sim.rate.est.tot<-ddply(subset(sim.root.pois, type == "total"), .(rate), summari
 #make final simulation dataset
 sim.rates<-merge(sim.rate.est.all, sim.rate.est.tot, by="rate")
 
-cafe.rates<-read.table("../data/sim_cafe_results.txt", header=F, stringsAsFactors=F)
+cafe.rates<-read.table("../input_data/simulations/sim_cafe_results.txt", header=F, stringsAsFactors=F)
 names(cafe.rates)<-c("rate", "cafe.dup", "cafe.loss", "cafe.tot", "sim.rate")
 
 sim.rates<-merge(sim.rates, cafe.rates)

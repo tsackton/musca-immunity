@@ -1,0 +1,278 @@
+fbgn	sym	synonyms	class	notes
+FBgn0043578	PGRP-SB1		effector	amidase activity, degrades PGN but not TCT, may function as an AMP
+FBgn0043577	PGRP-SB2		effector	amidase activity, degrades PGN but not TCT, may function as an AMP
+FBgn0012042	AttA		effector	AMP
+FBgn0041581	AttB		effector	AMP
+FBgn0041579	AttC		effector	AMP
+FBgn0038530	AttD		effector	AMP
+FBgn0000276	CecA1		effector	AMP
+FBgn0000277	CecA2		effector	AMP
+FBgn0000278	CecB		effector	AMP
+FBgn0000279	CecC		effector	AMP
+FBgn0010385	Def		effector	AMP
+FBgn0004240	Dpt		effector	AMP
+FBgn0034407	DptB		effector	AMP
+FBgn0010388	Dro		effector	AMP
+FBgn0010381	Drs		effector	AMP
+FBgn0052274	Drsl1		effector	AMP
+FBgn0052279	Drsl2		effector	AMP
+FBgn0052283	Drsl3		effector	AMP
+FBgn0052282	Drsl4		effector	AMP
+FBgn0035434	Drsl5		effector	AMP
+FBgn0052268	Drsl6		effector	AMP
+FBgn0033593	Listericin		effector	AMP
+FBgn0014865	Mtk		effector	AMP
+FBgn0087035	AGO2		effector	antiviral RNAi
+FBgn0033062	Ars2		effector	antiviral RNAi
+FBgn0022943	Cbp20		effector	antiviral RNAi
+FBgn0022942	Cbp80		effector	antiviral RNAi
+FBgn0031951	r2d2		effector	antiviral RNAi
+FBgn0034246	Dcr-2		effector	antiviral RNAi (may also function as a recognition molecule to trigger antiviral responses)
+FBgn0028707	Mt2		effector	antiviral, binds virus directly, required for efficient response to DCV
+FBgn0030262	Vago		effector	antiviral, seems to directly control viral load in fat body
+FBgn0039798	CG11313		effector	clotting pathway
+FBgn0028526	CG15293		effector	clotting pathway
+FBgn0004592	Eig71Ee		effector	clotting pathway
+FBgn0000639	Fbp1		effector	clotting pathway
+FBgn0032773	fon		effector	clotting pathway
+FBgn0029167	Hml		effector	clotting pathway
+FBgn0002562	Lsp1α		effector	clotting pathway
+FBgn0002563	Lsp1β		effector	clotting pathway
+FBgn0002564	Lsp1γ		effector	clotting pathway
+FBgn0002565	Lsp2		effector	clotting pathway
+FBgn0087002	Rfabg		effector	clotting pathway
+FBgn0031975	Tg		effector	clotting pathway
+FBgn0011722	Tig		effector	clotting pathway
+FBgn0031464	Duox		effector	gut immune response / DUOX cascade, ROS generation
+FBgn0004435	Galphaq		effector	gut immune response / DUOX cascade, ROS generation
+FBgn0262738	norpA		effector	gut immune response / DUOX cascade, ROS generation
+FBgn0034330	CG18107		effector	IM protein
+FBgn0053470	CG33470		effector	IM protein
+FBgn0034329	IM1		effector	IM protein
+FBgn0033835	IM10		effector	IM protein
+FBgn0025583	IM2		effector	IM protein
+FBgn0034328	IM23		effector	IM protein
+FBgn0040736	IM3		effector	IM protein
+FBgn0040653	IM4		effector	IM protein
+FBgn0022355	Tsf1		effector	iron binding
+FBgn0036299	Tsf2		effector	iron binding
+FBgn0034094	Tsf3		effector	iron binding
+FBgn0034539	CG11159		effector	Lysozyme-like domain
+FBgn0035734	CG14823		effector	Lysozyme-like domain
+FBgn0029765	CG16756		effector	Lysozyme-like domain
+FBgn0034538	CG16799		effector	Lysozyme-like domain
+FBgn0025827	CG6421		effector	Lysozyme-like domain
+FBgn0034162	CG6426		effector	Lysozyme-like domain
+FBgn0046999	CG6429		effector	Lysozyme-like domain
+FBgn0034165	CG6435		effector	Lysozyme-like domain
+FBgn0034092	CG7798		effector	Lysozyme-like domain
+FBgn0035813	CG8492		effector	Lysozyme-like domain
+FBgn0004425	LysB		effector	Lysozyme-like domain
+FBgn0004426	LysC		effector	Lysozyme-like domain
+FBgn0004427	LysD		effector	Lysozyme-like domain
+FBgn0004428	LysE		effector	Lysozyme-like domain
+FBgn0004429	LysP		effector	Lysozyme-like domain
+FBgn0004430	LysS		effector	Lysozyme-like domain
+FBgn0004431	LysX		effector	Lysozyme-like domain
+FBgn0041710	yellow-f		effector	PO (DCE)
+FBgn0038105	yellow-f2		effector	PO (DCE)
+FBgn0000422	Ddc		effector	PO cascade
+FBgn0030925	Hayan		effector	PO cascade
+FBgn0005626	ple	TH	effector	PO cascade
+FBgn0261362	proPO-A1		effector	PO cascade
+FBgn0033367	proPO45		effector	PO cascade
+FBgn0261363	proPO59		effector	PO cascade
+FBgn0027930	MP1		effector	PO cascade
+FBgn0037515	Sp7	MP2	effector	PO cascade
+FBgn0028396	TotA		effector	Tot-like
+FBgn0038838	TotB		effector	Tot-like
+FBgn0044812	TotC		effector	Tot-like
+FBgn0044811	TotF		effector	Tot-like
+FBgn0031701	TotM		effector	Tot-like
+FBgn0044810	TotX		effector	Tot-like
+FBgn0044809	TotZ		effector	Tot-like
+FBgn0053117	Victoria		effector	Tot-like
+FBgn0052185	edin		effector	unknown function but KD increases susceptibility to infection
+FBgn0012051	CalpA		modulation	modulation of Toll pathway
+FBgn0010014	canB		modulation	negative regulation of duox expression
+FBgn0036844	mkp3		modulation	negative regulation of duox expression
+FBgn0000251	cad		modulation	negative regulation of IMD
+FBgn0034068	casp		modulation	negative regulation of IMD
+FBgn0032210	CYLD		modulation	negative regulation of IMD
+FBgn0260866	dnr1		modulation	negative regulation of IMD
+FBgn0260936	dUSP36		modulation	negative regulation of IMD
+FBgn0015509	lin19		modulation	negative regulation of IMD
+FBgn0037906	PGRP-LB		modulation	negative regulation of IMD
+FBgn0035977	PGRP-LF		modulation	negative regulation of IMD
+FBgn0043576	PGRP-SC1a		modulation	negative regulation of IMD
+FBgn0033327	PGRP-SC1b		modulation	negative regulation of IMD
+FBgn0043575	PGRP-SC2		modulation	negative regulation of IMD
+FBgn0034647	pirk		modulation	negative regulation of IMD
+FBgn0040294	POSH		modulation	negative regulation of IMD
+FBgn0034763	RYBP		modulation	negative regulation of IMD
+FBgn0025637	skpA		modulation	negative regulation of IMD
+FBgn0023423	SLMB		modulation	negative regulation of IMD
+FBgn0004606	zfh1		signaling	cellular response via dpp pathway, also maybe neg regulator of imd?
+FBgn0004607	zfh2		signaling	cellular response via dpp pathway, also maybe neg regulator of imd?
+FBgn0029114	Tollo	Toll-8	modulation	negative regulation of IMD in trachea
+FBgn0041184	Socs36E		modulation	negative regulation of JAK/STAT
+FBgn0002022	Catsup		modulation	negative regulation of melanization
+FBgn0031461	daw		modulation	negative regulation of melanization
+FBgn0028990	Spn27A		modulation	negative regulation of melanization
+FBgn0031973	Spn28Dc		modulation	negative regulation of melanization
+FBgn0262057	Spn77Ba		modulation	negative regulation of melanization
+FBgn0038465	Irc		modulation	negative regulation of ROS pathway (suppresses infection induced ROS)
+FBgn0038134	wntD		modulation	negative regulation of Toll
+FBgn0002930	nec		modulation	negative regulation of Toll (serpin)
+FBgn0028984	Spn88Ea		modulation	negative regulation of Toll (serpin)
+FBgn0028988	Spn42Dd		modulation	negative regulation of Toll pathway
+FBgn0031055	et		modulation	negative regulator of JAK/STAT pathway
+FBgn0035975	PGRP-LA		modulation	positive regulator of the IMD pathway
+FBgn0013576	mtd		modulation	regulation of IMD signaling
+FBgn0029512	Aos1		modulation	Sumoylation
+FBgn0010602	lwr	Ubc9	modulation	Sumoylation
+FBgn0264922	smt3		modulation	Sumoylation
+FBgn0029113	Uba2		modulation	Sumoylation
+FBgn0027603	Ulp1		modulation	Sumoylation
+FBgn0026760	Tehao	Toll-5	modulation	Toll pathway (possible minor role)
+FBgn0036978	Toll-9		modulation	Toll pathway (possible minor role)
+FBgn0034476	Toll-7		recognition	antiviral, recognizes some viruses and activates autophagy pathways
+FBgn0004657	mys		recognition	hemocyte adherence to wasp eggs
+FBgn0035976	PGRP-LC		recognition	IMD pathway activation
+FBgn0030695	PGRP-LE		recognition	IMD pathway activation
+FBgn0040322	GNBP2		recognition	inferred by homology
+FBgn0265575	yin		recognition	intracellular/phagosomal
+FBgn0031381	Npc2a		recognition	MD2-like
+FBgn0051410	Npc2e		recognition	MD2-like
+FBgn0039801	Npc2h		recognition	MD2-like
+FBgn0011828	Pxn		recognition	phagocytosis
+FBgn0027594	draper		recognition	phagocytosis receptor
+FBgn0033159	Dscam1		recognition	phagocytosis receptor
+FBgn0265296	Dscam2		recognition	phagocytosis receptor
+FBgn0261046	Dscam3		recognition	phagocytosis receptor
+FBgn0243514	eater		recognition	phagocytosis receptor
+FBgn0028430	He		recognition	phagocytosis receptor
+FBgn0010395	Itgβν		recognition	phagocytosis receptor
+FBgn0264800	Mcr		recognition	phagocytosis receptor
+FBgn0261514	NimA		recognition	phagocytosis receptor
+FBgn0027929	NimB1		recognition	phagocytosis receptor
+FBgn0028543	NimB2		recognition	phagocytosis receptor
+FBgn0054003	NimB3		recognition	phagocytosis receptor
+FBgn0028542	NimB4		recognition	phagocytosis receptor
+FBgn0028936	NimB5		recognition	phagocytosis receptor
+FBgn0259896	NimC1		recognition	phagocytosis receptor
+FBgn0028939	NimC2		recognition	phagocytosis receptor
+FBgn0001967	NimC3		recognition	phagocytosis receptor
+FBgn0260011	NimC4		recognition	phagocytosis receptor
+FBgn0031969	pes		recognition	phagocytosis receptor
+FBgn0003328	scb		recognition	phagocytosis receptor
+FBgn0014033	Sr-CI		recognition	phagocytosis receptor
+FBgn0020377	Sr-CII		recognition	phagocytosis receptor
+FBgn0020376	Sr-CIII		recognition	phagocytosis receptor
+FBgn0031547	Sr-CIV		recognition	phagocytosis receptor
+FBgn0041183	Tep1		recognition	phagocytosis receptor
+FBgn0041182	Tep2		recognition	phagocytosis receptor
+FBgn0041181	Tep3		recognition	phagocytosis receptor
+FBgn0041180	Tep4		recognition	phagocytosis receptor
+FBgn0264845	Tep5		recognition	phagocytosis receptor
+FBgn0015924	crq		recognition	phagocytosis, CD36 family member
+FBgn0040323	GNBP1		recognition	Toll pathway activator
+FBgn0040321	GNBP3		recognition	Toll pathway activator
+FBgn0030310	PGRP-SA		recognition	Toll pathway activator
+FBgn0035806	PGRP-SD		recognition	Toll pathway activator
+FBgn0030926	psh		recognition	Toll pathway activator; recognition of bacterial/fungal proteases
+FBgn0260458	PGRP-LD		recognition	unknown function, PGRP domain, but unlikely to either bind PGN or have amidase activity based on sequence
+FBgn0010333	Rac1		signaling	cellular response (encapsulation)
+FBgn0014011	Rac2		signaling	cellular response (encapsulation)
+FBgn0004647	N		signaling	cellular response (hemocyte differentiation); Notch pathway
+FBgn0004197	Ser		signaling	cellular response (hemocyte differentiation); Notch pathway
+FBgn0004837	Su(H)		signaling	cellular response (hemocyte differentiation); Notch pathway
+FBgn0002576	lz		signaling	cellular response (hemocyte lineage specification)
+FBgn0004644	Hh		signaling	cellular response (hemocyte maintanence)
+FBgn0030964	Pvf1		signaling	cellular response (hemocyte maintanence)
+FBgn0031888	Pvf2		signaling	cellular response (hemocyte maintanence)
+FBgn0085407	Pvf3		signaling	cellular response (hemocyte maintanence)
+FBgn0032006	Pvr		signaling	cellular response (hemocyte maintanence)
+FBgn0004009	Wg		signaling	cellular response (hemocyte maintanence)
+FBgn0000490	dpp		signaling	cellular response (hemocyte maintanence) (also negative regulator of AMP induction)
+FBgn0014141	cher		signaling	cellular response (llamelocyte differentiation)
+FBgn0003731	Egfr		signaling	cellular response (llamelocyte differentiation)
+FBgn0001319	kn		signaling	cellular response (llamelocyte differentiation)
+FBgn0014020	Rho1		signaling	cellular response (llamelocyte differentiation)
+FBgn0003310	S		signaling	cellular response (llamelocyte differentiation)
+FBgn0016977	spen		signaling	cellular response (llamelocyte differentiation)
+FBgn0005672	Spitz		signaling	cellular response (llamelocyte differentiation)
+FBgn0003507	srp		signaling	cellular response (llamelocyte differentiation)
+FBgn0004397	Vinc		signaling	cellular response (llamelocyte differentiation)
+FBgn0014179	gcm		signaling	cellular response (plasmatocyte differentiation)
+FBgn0019809	gcm2		signaling	cellular response (plasmatocyte differentiation)
+FBgn0003117	pnr		signaling	cellular response (plasmatocyte differentiation)
+FBgn0015371	chn		signaling	cellular response (repressor of llamelocyte differentiation)
+FBgn0260789	mxc		signaling	cellular response (repressor of llamelocyte differentiation)
+FBgn0000173	ben		signaling	IMD pathway
+FBgn0020381	Dredd		signaling	IMD pathway
+FBgn0011217	EFF		signaling	IMD pathway
+FBgn0038928	Fadd		signaling	IMD pathway
+FBgn0015247	Iap2		signaling	IMD pathway
+FBgn0013983	imd		signaling	IMD pathway
+FBgn0024222	ird5		signaling	IMD pathway
+FBgn0041205	key		signaling	IMD pathway
+FBgn0014018	Rel		signaling	IMD pathway
+FBgn0263873	sick		signaling	IMD pathway
+FBgn0086358	Tab2		signaling	IMD pathway
+FBgn0026323	Tak1		signaling	IMD pathway
+FBgn0035601	Uev1A		signaling	IMD pathway
+FBgn0082598	akirin		signaling	IMD pathway (Relish co-activator)
+FBgn0043903	dome		signaling	JAK/STAT pathway
+FBgn0004864	hop		signaling	JAK/STAT pathway
+FBgn0005654	lat		signaling	JAK/STAT pathway
+FBgn0004956	os		signaling	JAK/STAT pathway
+FBgn0016917	Stat92E		signaling	JAK/STAT pathway
+FBgn0030904	upd2		signaling	JAK/STAT pathway
+FBgn0053542	upd3		signaling	JAK/STAT pathway
+FBgn0000229	bsk		signaling	JNK pathway
+FBgn0033483	egr	TNF	signaling	JNK pathway
+FBgn0010303	hep	MKK7	signaling	JNK pathway
+FBgn0001291	Jra	Jun	signaling	JNK pathway
+FBgn0001297	kay		signaling	JNK pathway
+FBgn0024326	Mkk4		signaling	JNK pathway
+FBgn0243512	puc		signaling	JNK pathway
+FBgn0026319	Traf4	TRAF1	signaling	JNK pathway
+FBgn0030941	wgn	TNFR	signaling	JNK pathway
+FBgn0265464	Traf6	TRAF2	signaling	nf-kB activation (although some conflicting reports)
+FBgn0022787	Hel89B		signaling	Nf-kB co-activator
+FBgn0030018	slpr		signaling	p38 pathway
+FBgn0265193	Atf-2		signaling	p38 pathway (duox regulation)
+FBgn0261524	lic	MKK3	signaling	p38 pathway (duox regulation)
+FBgn0024329	Mekk1		signaling	p38 pathway (duox regulation)
+FBgn0015765	Mpk2	p38a	signaling	p38 pathway (duox regulation)
+FBgn0024846	p38b		signaling	p38 pathway (duox regulation)
+FBgn0004638	drk		signaling	Ras/MAPK pathway
+FBgn0010269	Dsor1		signaling	Ras/MAPK pathway
+FBgn0003079	phl		signaling	Ras/MAPK pathway
+FBgn0003118	pnt		signaling	Ras/MAPK pathway
+FBgn0003205	Ras85D		signaling	Ras/MAPK pathway
+FBgn0003256	rl		signaling	Ras/MAPK pathway
+FBgn0001965	Sos		signaling	Ras/MAPK pathway
+FBgn0000250	cact		signaling	Toll pathway
+FBgn0011274	Dif		signaling	Toll pathway
+FBgn0260632	dl		signaling	Toll pathway
+FBgn0261988	Gprk2		signaling	Toll pathway
+FBgn0033402	Myd88		signaling	Toll pathway
+FBgn0010441	pll		signaling	Toll pathway
+FBgn0003495	spz		signaling	Toll pathway
+FBgn0262473	Tl		signaling	Toll pathway
+FBgn0003882	tub		signaling	Toll pathway
+FBgn0086680	Dfr		signaling	Toll pathway (DIF co-activator)
+FBgn0085424	nub		signaling	Toll pathway (DIF co-activator)
+FBgn0004394	Pdm2		signaling	Toll pathway (DIF co-activator)
+FBgn0013799	DEAF1		signaling	Toll pathway (Dorsal/DIF co-activator)
+FBgn0030774	spheroide		signaling	Toll pathway (serine protease homolog)
+FBgn0052383	sphinx1		signaling	Toll pathway (serine protease homolog)
+FBgn0052382	sphinx2		signaling	Toll pathway (serine protease homolog)
+FBgn0039494	grass		signaling	Toll pathway (serine protease)
+FBgn0051217	modSP		signaling	Toll pathway (serine protease)
+FBgn0039102	SPE		signaling	Toll pathway (serine protease)
+FBgn0030051	spirit		signaling	Toll pathway (serine protease)
+FBgn0003963	ush		signaling	Toll pathway, lamellocyte differentiation
+FBgn0011676	Nos		effector	both signaling and effector

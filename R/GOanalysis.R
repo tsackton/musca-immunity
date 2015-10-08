@@ -7,7 +7,7 @@ library(plyr)
 
 #create a GO annotation in R from the blast2GO results from the genome paper
 
-musca.go<-read.table("../data/mdom_go_list", sep="\t", header=F)
+musca.go<-read.table("../input_data/GO/mdom_go_list", sep="\t", header=F)
 names(musca.go)<-c("go_id", "evidence", "prot_id")
 
 #replace protein ids with gene ids

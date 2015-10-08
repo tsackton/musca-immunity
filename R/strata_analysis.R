@@ -2,11 +2,11 @@
 
 #make dataset for analysis
 mus.strat<-merge(mdom.all, difexp, by.x="gene", by.y="row.names", all=T)
-mus.strat<-unique(mus.strat[!is.na(mus.strat$gene),c("gene", "isoform", "ogsid", "class", "strata", "hmm", "sigp", "type.x", "dmel", "dmel.imm", "dmel.sym", "baseMean", "log2FoldChange", "pvalue", "padj")])
+mus.strat<-unique(mus.strat[!is.na(mus.strat$gene),c("gene", "protein", "ogsid", "class", "strata", "hmm", "sigp", "type.x", "dmel", "dmel.imm", "dmel.sym", "baseMean", "log2FoldChange", "pvalue", "padj")])
 mus.strat$difexp=as.numeric(mus.strat$padj<0.05)*as.numeric(sign(mus.strat$log2FoldChange))
 mus.strat<-merge(mus.strat, strata.age)
 mus.strat$immune<-as.factor(!is.na(mus.strat$dmel.imm) | !is.na(mus.strat$hmm))
-mus.strat<-merge(mus.strat, protlen)
+mus.strat<-merge(mus.strat, protlen, by.x="protein", by.y="isoform")
 
 #proportion of young genes induced compared to old genes
 #first, try a regular logistic regression

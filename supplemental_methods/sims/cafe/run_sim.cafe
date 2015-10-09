@@ -1,0 +1,5 @@
+#!/Users/tim/Applications/cafehahnlab-code/cafe/cafe
+tree (((musDom:52,gloMor:52):52,((droWil:56,(droPse:48,((droYak:14,droMel:14):17,droAna:31):17):8):8,(droVir:32,droMoj:32):32):39):184,((culQui:79,aedAeg:79):79,(anoDar:70,(anoSte:35,anoGam:35):35):88):129)
+load -i sim -t 4 -l ./sim.log -p 0.01 -filter 
+lambda -s
+lambdamu -s

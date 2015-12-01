@@ -9,7 +9,7 @@ summary(des.rsem.results, alpha=0.05)
 mdom.dif<-unique(subset(mdom.all, mdom.all$type.y == "total", select=c("gene", "strata", "hmm", "eval", "sigp", "type.x", "dmel", "dmel.imm", "dmel.sym")))
 mdom.dif<-merge(mdom.dif, difexp, all=T, by.x="gene", by.y="row.names")
 mdom.dif<-mdom.dif[!is.na(mdom.dif$gene),]
-mdom.dif$difexp<-sign(mdom.dif$log2FoldChange)*(mdom.dif$padj<0.01)
+mdom.dif$difexp<-sign(mdom.dif$log2FoldChange)*(mdom.dif$padj<0.05)
 #mdom dif includes non-coding RNAs which we have expression for but not homology annotations
 #to get just protein-coding genes, ignore those where is.na(strata)==T
 

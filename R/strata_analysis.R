@@ -36,16 +36,16 @@ plot(mus.strat$min.age.norm ~ mus.strat$min.age, xlab="Raw age", ylab="Normalize
 strata.logit.norm<-glm(as.numeric(difexp==1) ~ min.age.norm, family="binomial", data=mus.strat)
 
 #also look at broader cats: ancient (>~900), old (~600-800), intermediate (~100-400), young(<~100) 
-mus.strat$age.cat=cut(mus.strat$min.age, breaks=c(0,(85+275)/2, (355+642)/2, (790+910)/2, 2000), label=c("young", "intermediate", "old", "ancient"), ordered_result=T)
-mus.strat$age.cat.norm=cut(mus.strat$min.age.norm, breaks=c(0,(85+275)/2, (355+642)/2, (790+910)/2, 2000), label=c("young", "intermediate", "old", "ancient"), ordered_result=T)
+mus.strat$age.cat=cut(mus.strat$min.age, breaks=c(-400,(85+275)/2, (355+642)/2, (790+910)/2, 2000), label=c("young", "intermediate", "old", "ancient"), ordered_result=T)
+mus.strat$age.cat.norm=cut(mus.strat$min.age.norm, breaks=c(-400,(85+275)/2, (355+642)/2, (790+910)/2, 2000), label=c("young", "intermediate", "old", "ancient"), ordered_result=T)
 
 #in both cases chisq is highly significant
 chisq.test(mus.strat$difexp==1, mus.strat$age.cat)
 chisq.test(mus.strat$difexp==1, mus.strat$age.cat.norm)
 
 #let's also do a logistic regression with our age categories
-strata.logit.cat<-glm(difexp==1 ~ relevel(as.factor(as.character(age.cat)), ref="old"), family="binomial", data=mus.strat)
-strata.logit.cat.norm<-glm(difexp==1 ~ relevel(as.factor(as.character(age.cat.norm)), ref="old"), family="binomial", data=mus.strat)
+strata.logit.cat<-glm(difexp==1 ~ relevel(as.factor(as.character(age.cat)), ref="ancient"), family="binomial", data=mus.strat)
+strata.logit.cat.norm<-glm(difexp==1 ~ relevel(as.factor(as.character(age.cat.norm)), ref="ancient"), family="binomial", data=mus.strat)
 
 #do a post-hoc test of each cat vs. all others pooled
 #this code creates a dataframe (strat.cat.res) that has the prop induced in each age category, 
@@ -80,3 +80,9 @@ strata.ordered.ni<-glm(as.numeric(difexp==1) ~ rank(min.age), family="binomial",
 by(mus.strat, mus.strat$difexp, function(x) cor.test(x$min.age, x$log2FoldChange, method="k"))
 by(mus.strat, mus.strat$difexp, function(x) cor.test(x$min.age.norm, x$log2FoldChange, method="k"))
 
+
+
+#figures
+plot(with(mus.strat, prop.table(table(difexp==1, min.age),2))[2,] ~ sort(unique(mus.strat$min.age)), xlab="Gene Age (MYA)", ylab="Proportion Induced", las=1, pch=16, col="red")
+
+plot(with(mus.strat, prop.table(table(difexp==1, cut(min.age.norm, breaks=22, labels=F)),2))[2,] ~ seq(1,22,1), xlab="Gene Age (MYA)", ylab="Proportion Induced", las=1, pch=16, col="red")

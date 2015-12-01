@@ -58,6 +58,42 @@ down.params<-GSEAGOHyperGParams(name="Musca downreg GSEA",
 upreg.over.res<-hyperGTest(up.params)
 downreg.over.res<-hyperGTest(down.params)
 
+#multiple test correction
+upreg.df<-summary(upreg.over.res, pvalue=1, categorySize=5)
+upreg.df$padj<-p.adjust(upreg.df$Pvalue, method="holm")
+downreg.df<-summary(downreg.over.res, pvalue=1, categorySize=5)
+downreg.df$padj<-p.adjust(downreg.df$Pvalue, method="holm")
+
+#molecular function
+up.params.m<-GSEAGOHyperGParams(name="Musca upreg GSEA",
+                              geneSetCollection=musca.gsc,
+                              geneIds = upreg,
+                              universeGeneIds = universe,
+                              ontology = "MF",
+                              pvalueCutoff = 0.05,
+                              conditional = T,
+                              testDirection = "over")
+
+down.params.m<-GSEAGOHyperGParams(name="Musca downreg GSEA",
+                                geneSetCollection=musca.gsc,
+                                geneIds = downreg,
+                                universeGeneIds = universe,
+                                ontology = "MF",
+                                pvalueCutoff = 0.05,
+                                conditional = T,
+                                testDirection = "over")
+
+#perform tests
+upreg.over.res.m<-hyperGTest(up.params.m)
+downreg.over.res.m<-hyperGTest(down.params.m)
+
+#multiple test correction
+upreg.df.m<-summary(upreg.over.res.m, pvalue=1, categorySize=5)
+upreg.df.m$padj<-p.adjust(upreg.df.m$Pvalue, method="holm")
+downreg.df.m<-summary(upreg.over.res.m, pvalue=1, categorySize=5)
+downreg.df.m$padj<-p.adjust(downreg.df.m$Pvalue, method="holm")
+
+
 #verify similar result with limma-voom
 library(edgeR)
 library(limma)
@@ -75,5 +111,5 @@ limma.go<-ids2indices(musca.golist, rownames(md.v))
 
 #run the ROMER test from limma to get GO categories with evidence for upregulation, downregulation or regulation overall ('mixed')
 romer.gse<-romer(y=md.v, index=limma.go, design=md.design, contrast=2)
-
-
+romer.df <- as.data.frame(romer.gse)
+romer.df$UpAdj<-p.adjust(romer.df$Up, method="fdr")

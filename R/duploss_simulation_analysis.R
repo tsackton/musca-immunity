@@ -28,15 +28,23 @@ sim.root.pois<-merge(sim.ct.root, ultra.edges, by.x="treefix", by.y="treefix")
 sim.root.pois$count<-as.numeric(sim.root.pois$count)
 sim.root.pois$rate = as.numeric(sub("sim\\.\\d+", "", sim.root.pois$ogs, perl=T))
 
+#counts of analyzed genes in each simulation bin
+table(sim.root.pois$rate[sim.root.pois$type=="dup"])/length(unique(sim.root.pois$edge))
+
 #now look at each rate subset, in a few ways
 require(plyr)
 sim.rate.est.all<-ddply(subset(sim.root.pois, type != "total"), .(rate), summarize, dup.rate=coef(glm(count ~ type + offset(log(br)), family="poisson"))[1], loss.rate=coef(glm(count ~ type + offset(log(br)), family="poisson"))[2])
 sim.rate.est.all$loss.rate = sim.rate.est.all$dup.rate + sim.rate.est.all$loss.rate
-
-sim.rate.est.tot<-ddply(subset(sim.root.pois, type == "total"), .(rate), summarize, tot.rate=coef(glm(count ~ offset(log(br)), family="poisson"))[1])
+sim.rate.est.tot<-ddply(subset(sim.root.pois, type == "total"), .(rate), summarize, tot.rate=coef(glm(count ~ offset(log(br)), family="poisson"))[1], tot.err=coef(summary(glm(count ~ offset(log(br)), family="poisson")))[2])
 
 #make final simulation dataset
 sim.rates<-merge(sim.rate.est.all, sim.rate.est.tot, by="rate")
+sim.rates$log = log(sim.rates$rate)
+sim.rates$tot.rmse = sqrt((exp(sim.rates$tot.rate) - (sim.rates$rate*2))^2)
+sim.rates$dup.rmse = sqrt((exp(sim.rates$dup.rate) - (sim.rates$rate))^2)
+sim.rates$loss.rmse = sqrt((exp(sim.rates$loss.rate) - (sim.rates$rate))^2)
+
+
 
 cafe.rates<-read.table("../input_data/simulations/sim_cafe_results.txt", header=F, stringsAsFactors=F)
 names(cafe.rates)<-c("rate", "cafe.dup", "cafe.loss", "cafe.tot", "sim.rate")
@@ -45,6 +53,16 @@ sim.rates<-merge(sim.rates, cafe.rates)
 sim.rates$pois.dup=exp(sim.rates$dup.rate)
 sim.rates$pois.los=exp(sim.rates$loss.rate)
 sim.rates$pois.tot=exp(sim.rates$tot.rate)/2
+
+#plot
+plot(sim.rates$log ~ sim.rates$rate, ylim=c(-8,0), log="x", col="red", pch=16)
+points(log(exp(sim.rates$tot.rate)/2) ~ sim.rates$rate, col="black", pch=0)
+points(sim.rates$dup.rate ~ sim.rates$rate, col="blue", pch=0)
+points(sim.rates$loss.rate ~ sim.rates$rate, col="darkgreen", pch=0)
+points(log(sim.rates$cafe.tot) ~ sim.rates$rate, col="black", pch = 2)
+points(log(sim.rates$cafe.dup) ~ sim.rates$rate, col="blue", pch = 2)
+points(log(sim.rates$cafe.loss) ~ sim.rates$rate, col="darkgreen", pch = 2)
+
 
 #look at poisson model by branch
 sim.rates.br<-ddply(subset(sim.root.pois), .(rate, nodeclass, treefix), summarize, dup.rate=coef(glm(count[type != "total"] ~ type[type != "total"] + offset(log(br[type != "total"])), family="poisson"))[1], loss.rate=coef(glm(count[type != "total"] ~ type[type != "total"] + offset(log(br[type != "total"])), family="poisson"))[2], tot.rate=coef(glm(count[type == "total"] ~ offset(log(br[type == "total"])), family="poisson"))[1])

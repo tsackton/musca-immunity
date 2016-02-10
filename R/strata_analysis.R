@@ -55,7 +55,7 @@ strata.logit.cat.norm<-glm(difexp==1 ~ relevel(as.factor(as.character(age.cat.no
 strat.cat.res<-data.frame(cat=factor(c("young", "intermediate", "old", "ancient"), levels=c("young", "intermediate", "old", "ancient"), ordered=T), prop.l=numeric(4), prop=numeric(4), prop.u=numeric(4), prop.norm.l=numeric(4), prop.norm=numeric(4), prop.norm.u=numeric(4), p.value=numeric(4), p.value.norm=numeric(4))
 for (i in c(1,2,3,4)) {
   strat.cat.res$p.value[i]<-chisq.test(mus.strat$difexp==1, mus.strat$age.cat==strat.cat.res$cat[i])$p.value
-  strat.cat.res$p.value.norm[i]<-chisq.test(mus.strat$difexp==1, mus.strat$age.cat.norm==strat.cat.res$cat[i])$p.value  
+  strat.cat.res$p.value.norm[i]<-chisq.test(mus.strat$difexp==1, mus.strat$age.cat.norm==strat.cat.res$cat[i])$p.value
   strat.cat.res$prop[i]=with(droplevels(mus.strat[mus.strat$age.cat==strat.cat.res$cat[i],]), prop.test(t(table(difexp!=1, age.cat))))$estimate
   strat.cat.res$prop.l[i]=with(droplevels(mus.strat[mus.strat$age.cat==strat.cat.res$cat[i],]), prop.test(t(table(difexp!=1, age.cat))))$conf.int[1]
   strat.cat.res$prop.u[i]=with(droplevels(mus.strat[mus.strat$age.cat==strat.cat.res$cat[i],]), prop.test(t(table(difexp!=1, age.cat))))$conf.int[2] 

@@ -59,6 +59,6 @@ plotDispEsts(des.rsem.analysis)
 difexp=as.data.frame(des.rsem.results)
 
 #write table
-write.table(difexp, file="../results/mdom.difexp.tsv", sep="\t", quote=F, row.names=F)
+write.table(difexp, file="../results/mdom.difexp.tsv", sep="\t", quote=F, row.names=T)
 
 

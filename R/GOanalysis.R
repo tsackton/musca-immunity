@@ -90,8 +90,15 @@ downreg.over.res.m<-hyperGTest(down.params.m)
 #multiple test correction
 upreg.df.m<-summary(upreg.over.res.m, pvalue=1, categorySize=5)
 upreg.df.m$padj<-p.adjust(upreg.df.m$Pvalue, method="holm")
-downreg.df.m<-summary(upreg.over.res.m, pvalue=1, categorySize=5)
+downreg.df.m<-summary(downreg.over.res.m, pvalue=1, categorySize=5)
 downreg.df.m$padj<-p.adjust(downreg.df.m$Pvalue, method="holm")
+
+
+#write results out
+write.table(upreg.df.m, file="../results/GO_MF_upreg.tsv", sep="\t", quote=F, row.names=F)
+write.table(upreg.df, file="../results/GO_BP_upreg.tsv", sep="\t", quote=F, row.names=F)
+write.table(downreg.df.m, file="../results/GO_MF_downreg.tsv", sep="\t", quote=F, row.names=F)
+write.table(downreg.df, file="../results/GO_BP_downreg.tsv", sep="\t", quote=F, row.names=F)
 
 
 #verify similar result with limma-voom

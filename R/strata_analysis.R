@@ -33,7 +33,7 @@ mus.strat$min.age.norm<-mus.strat$min.age+(mus.strat$scaled.exp*exp.mod)+(mus.st
 plot(mus.strat$min.age.norm ~ mus.strat$min.age, xlab="Raw age", ylab="Normalized age", col="gray30", cex=0.5)
 
 #now use the normalized age in analysis too
-strata.logit.norm<-glm(as.numeric(difexp==1) ~ min.age.norm, family="binomial", data=mus.strat)
+strata.logit.norm<-glm(as.numeric(difexp==1) ~ as.vector(min.age.norm), family="binomial", data=mus.strat)
 
 #also look at broader cats: ancient (>~900), old (~600-800), intermediate (~100-400), young(<~100) 
 mus.strat$age.cat=cut(mus.strat$min.age, breaks=c(-400,(85+275)/2, (355+642)/2, (790+910)/2, 2000), label=c("young", "intermediate", "old", "ancient"), ordered_result=T)
@@ -79,10 +79,3 @@ strata.ordered.ni<-glm(as.numeric(difexp==1) ~ rank(min.age), family="binomial",
 #finally, correlation between fold change and gene age
 by(mus.strat, mus.strat$difexp, function(x) cor.test(x$min.age, x$log2FoldChange, method="k"))
 by(mus.strat, mus.strat$difexp, function(x) cor.test(x$min.age.norm, x$log2FoldChange, method="k"))
-
-
-
-#figures
-plot(with(mus.strat, prop.table(table(difexp==1, min.age),2))[2,] ~ sort(unique(mus.strat$min.age)), xlab="Gene Age (MYA)", ylab="Proportion Induced", las=1, pch=16, col="red")
-
-plot(with(mus.strat, prop.table(table(difexp==1, cut(min.age.norm, breaks=22, labels=F)),2))[2,] ~ seq(1,22,1), xlab="Gene Age (MYA)", ylab="Proportion Induced", las=1, pch=16, col="red")

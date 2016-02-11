@@ -35,3 +35,31 @@ legend(x=0.8, y=0.04, bty="n", legend=c("Raw Age", "Normalized Age"), col=c("dar
 legend(x=0.8, y=0.02, bty="n", legend=c("P < 0.05"), col="black", pch=8)
 mtext(2, at=0.08, text=("Genome\nAverage"), las=1)
 mtext(3, at=c(1,1.2,2,2.2,4,4.2), text="*", cex=2, line=-4)
+
+#figure 5 (phylogeny)
+
+#figure 6
+#plot
+plot(exp(sim.rates$log) ~ sim.rates$rate, col="red", type="l", lwd=3, log="xy", ylab="Estimated Rate (Events / MY)", xlab="Simulated Rate (Events / MY)", bty="l", ylim=c(0.0005, 0.4), xlim=c(0.0005, 0.4))
+points(exp(sim.rates$tot.rate)/2~ sim.rates$rate, col="black", pch=0)
+points(exp(sim.rates$dup.rate) ~ sim.rates$rate, col="blue", pch=0)
+points(exp(sim.rates$loss.rate) ~ sim.rates$rate, col="darkgreen", pch=0)
+legend(x=1e-03, y=0.35, legend=c("expected value"), lwd=1, col="red", bty="n")
+legend(x=1.2e-03, y=0.20, legend=c("Duplication", "Loss", "Total"), pch=0, col=c("blue", "darkgreen", "black"), bty="n")
+
+plot(exp(sim.rates$log) ~ sim.rates$rate, col="red", type="l", lwd=3, log="xy", ylab="Estimated Rate (Events / MY)", xlab="Simulated Rate (Events / MY)", bty="l", ylim=c(0.0005, 0.4), xlim=c(0.0005, 0.4))
+points(sim.rates$cafe.tot ~ sim.rates$rate, col="black", pch = 2)
+points(sim.rates$cafe.dup ~ sim.rates$rate, col="blue", pch = 2)
+points(sim.rates$cafe.loss ~ sim.rates$rate, col="darkgreen", pch = 2)
+legend(x=1e-03, y=0.35, legend=c("expected value"), lwd=1, col="red", bty="n")
+legend(x=1.2e-03, y=0.20, legend=c("Duplication", "Loss", "Total"), pch=2, col=c("blue", "darkgreen", "black"), bty="n")
+
+#figure 7
+library(plotrix)
+fig7data<-summary(glht(musca.immclass.test, linfct=byclass_cont))$test
+plotCI(x=c(1,2,3,4), y=fig7data$coefficients, uiw=fig7data$sigma, col="black", pch=16, xlab=c("Category"), xaxt="n", bty="n", ylim=c(-1,2), xlim=c(0.8,4.2), ylab="Duplication Rate (Musca vs Other Dipterans)", las=2, cex=1.4)
+axis(1, at=c(1,2,3,4), labels=c("Recognition", "Effector", "Modulation", "Signaling"))
+abline(h=0, lwd=2, lty="dotted")
+mtext(at=c(3,4), line=-2.6, text=paste("P=", round(fig7data$pvalues, 3)[3:4], sep=""))
+mtext(at=c(1,2), line=-2.6, text=c("P<0.0001", "P<0.0001"))
+

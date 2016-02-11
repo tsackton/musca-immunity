@@ -14,6 +14,7 @@ Update based on HMM search
 4. Search hmms (search_hmms.sh)
 
 5. Update OGS after hmmscan (fix_ogs_after_hmmscan.pl)
+	- Note that in this script genes with multiple equally low e-values assigned to a single HMM arbitrarily
 
 6. Make new sequence files (get_seq_files.pl)
 

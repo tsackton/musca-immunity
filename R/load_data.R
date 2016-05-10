@@ -1,7 +1,10 @@
-#Final Version. October 2015
+#Final Version. April 2016
 
 #load data into R and check for consistency#
 #This code loads transcript and protein ids, protein lengthts, phylostratigraphic data, immune hmm calls, signal peptide inference, and orthogroup data from the OMA/Treefix pipeline
+
+#set working directory
+setwd("~/Projects/immunity/musca/musca-immunity/R/")
 
 #get transcripts
 isokey<-read.table("../input_data/annotations/mdom.final.rnakey", header=F)
@@ -10,10 +13,17 @@ names(isokey) = c("gene", "transcript")
 #get proteins
 protkey<-read.table("../input_data/annotations/mdom.final.protkey", header=F)
 names(protkey) = c("gene", "protein")
+protkey$protein = sub("\\.\\d+", "", protkey$protein, perl=T)
+
+#added: dmel protein key
+dmel.protkey<-read.table("../input_data/annotations/dmel.protkey", header=F)
+names(dmel.protkey) = c("gene", "protein")
 
 #get protein length
 protlen<-read.table("../input_data/annotations/mdom.final.proteins.fa.lengths", header=F)
 names(protlen)=c("isoform", "length")
+protlen$isoform = sub("\\.\\d+", "", protlen$isoform, perl=T)
+
 
 #get longest isoform
 mdom.longest=merge(protkey, protlen, by.x="protein", by.y="isoform", all.x=T)
@@ -22,6 +32,8 @@ mdom.longest=mdom.longest[!duplicated(mdom.longest$gene),]
 
 #load strata
 mdom.strat<-read.table("../input_data/annotations/mdom_strata.txt", header=T)
+mdom.strat$id =  sub("\\.\\d+", "", mdom.strat$id, perl=T)
+
 
 #get strata ages
 strata.age<-read.table('../supplemental_methods/strata/strata_age.txt', header=F)
@@ -32,12 +44,19 @@ names(strata.age)=c("strata", "min.age")
 sigpep<-read.table("../input_data/annotations/mdom.sigpep")
 sigpep=sigpep[,c(1,10)]
 names(sigpep) = c("id", "sigp")
+sigpep$id = sub("\\.\\d+", "", sigpep$id, perl=T)
 
 #load hmm
-mdom.imm<-read.table("../input_data/annotations/hmm_parsed.txt", header=F)
-names(mdom.imm) = c("prot", "hmm", "eval")
-mdom.imm = mdom.imm[order(mdom.imm$eval),]
-mdom.imm = mdom.imm[!duplicated(mdom.imm$prot),]
+#edited April 2016 to load all species HMM annotations
+hmm.results<-read.table("../supplemental_methods/hmm/parsed_hmm_results.tsv", header=F)
+names(hmm.results) = c("species", "prot", "hmm", "eval")
+hmm.results = hmm.results[order(hmm.results$eval),]
+hmm.results = hmm.results[!duplicated(hmm.results$prot),]
+mdom.imm = hmm.results[hmm.results$species=="mdom.final.proteins", c("prot", "hmm", "eval")]
+dmel.hmm.imm = hmm.results[hmm.results$species=="dmel-all-translation-r6.02", c("prot", "hmm", "eval")]
+dmel.hmm.imm = merge(dmel.hmm.imm, dmel.protkey, by.x="prot", by.y="protein", all.x=T, all.y=F)
+dmel.hmm.imm = dmel.hmm.imm[order(dmel.hmm.imm$eval),]
+dmel.hmm.imm = dmel.hmm.imm[!duplicated(dmel.hmm.imm$gene),]
 
 #dmel immune annotation
 dmel.imm<-read.table("../input_data/annotations/dmel-immune.txt", sep="\t", header=T)
@@ -115,8 +134,13 @@ conserved.trees<-ogs.ct[ogs.ct$total==14 & ogs.ct$max==1 & !is.na(ogs.ct$total),
 
 
 #run difexp analysis,saving diagnostic plots to a PDF file
-pdf(file="difexp_plots.pdf")
+pdf(file="difexp_plots_musca.pdf")
 source("difexp.R")
+dev.off()
+
+#run difexp analysis on dmel, saving diagnostic plots
+pdf(file="difexp_plots_dmel.pdf")
+source("difexp_dmel.R")
 dev.off()
 
 ##END##

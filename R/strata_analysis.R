@@ -19,16 +19,16 @@ strata.ordered<-glm(as.numeric(difexp==1) ~ rank(min.age), family="binomial", da
 
 #now generate corrected values of min age based on expression and length
 #first, rescale
-mus.strat$scaled.length=scale(log10(mus.strat$length), scale=F)
+mus.strat$scaled.length=scale(log10(mus.strat$length), scale=T)
 mus.strat$scaled.exp=mus.strat$baseMean
 mus.strat$scaled.exp[mus.strat$baseMean==0]=NA
-mus.strat$scaled.exp=scale(log10(mus.strat$scaled.exp),scale=F)
+mus.strat$scaled.exp=scale(log10(mus.strat$scaled.exp),scale=T)
 mus.strat$scaled.exp[is.na(mus.strat$scaled.exp)]=mean(mus.strat$scaled.exp,na.rm=T)
 #compute coefs
 exp.mod<-coef(lm(min.age ~ scaled.exp, data=mus.strat))[2]
 len.mod<-coef(lm(min.age ~ scaled.length, data=mus.strat))[2]
 #predicted values
-mus.strat$min.age.norm<-mus.strat$min.age+(mus.strat$scaled.exp*exp.mod)+(mus.strat$scaled.length*len.mod)
+mus.strat$min.age.norm<-mus.strat$min.age-(mus.strat$scaled.exp*exp.mod)
 #look at plot to verify reasonableness
 plot(mus.strat$min.age.norm ~ mus.strat$min.age, xlab="Raw age", ylab="Normalized age", col="gray30", cex=0.5)
 
@@ -57,13 +57,15 @@ for (i in c(1,2,3,4)) {
   strat.cat.res$p.value[i]<-chisq.test(mus.strat$difexp==1, mus.strat$age.cat==strat.cat.res$cat[i])$p.value
   strat.cat.res$p.value.norm[i]<-chisq.test(mus.strat$difexp==1, mus.strat$age.cat.norm==strat.cat.res$cat[i])$p.value
   strat.cat.res$prop[i]=with(droplevels(mus.strat[mus.strat$age.cat==strat.cat.res$cat[i],]), prop.test(t(table(difexp!=1, age.cat))))$estimate
-  strat.cat.res$prop.l[i]=with(droplevels(mus.strat[mus.strat$age.cat==strat.cat.res$cat[i],]), prop.test(t(table(difexp!=1, age.cat))))$conf.int[1]
-  strat.cat.res$prop.u[i]=with(droplevels(mus.strat[mus.strat$age.cat==strat.cat.res$cat[i],]), prop.test(t(table(difexp!=1, age.cat))))$conf.int[2] 
+  strat.cat.res$prop.l[i]=with(droplevels(mus.strat[mus.strat$age.cat==strat.cat.res$cat[i],]), prop.test(t(table(difexp!=1, age.cat)), conf.level=0.99))$conf.int[1]
+  strat.cat.res$prop.u[i]=with(droplevels(mus.strat[mus.strat$age.cat==strat.cat.res$cat[i],]), prop.test(t(table(difexp!=1, age.cat)), conf.level=0.99))$conf.int[2] 
   strat.cat.res$prop.norm[i]=with(droplevels(mus.strat[mus.strat$age.cat.norm==strat.cat.res$cat[i],]), prop.test(t(table(difexp!=1, age.cat.norm))))$estimate
-  strat.cat.res$prop.norm.l[i]=with(droplevels(mus.strat[mus.strat$age.cat.norm==strat.cat.res$cat[i],]), prop.test(t(table(difexp!=1, age.cat.norm))))$conf.int[1]
-  strat.cat.res$prop.norm.u[i]=with(droplevels(mus.strat[mus.strat$age.cat.norm==strat.cat.res$cat[i],]), prop.test(t(table(difexp!=1, age.cat.norm))))$conf.int[2] 
+  strat.cat.res$prop.norm.l[i]=with(droplevels(mus.strat[mus.strat$age.cat.norm==strat.cat.res$cat[i],]), prop.test(t(table(difexp!=1, age.cat.norm)), conf.level=0.99))$conf.int[1]
+  strat.cat.res$prop.norm.u[i]=with(droplevels(mus.strat[mus.strat$age.cat.norm==strat.cat.res$cat[i],]), prop.test(t(table(difexp!=1, age.cat.norm)), conf.level=0.99))$conf.int[2] 
   
 }
+
+#BELOW HERE NOT RUN FOR PAPER##
 
 #finally, let's look at the effect of gene age on annotated immune genes separately from genes without an immune annotation
 #we'll repeat the logistic regression on data subsets first

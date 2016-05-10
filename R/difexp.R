@@ -35,7 +35,7 @@ summary(des.rsem.results)
 
 #MA-plot, comparing shrunken vs unshrunked results
 par(mfcol=c(1,2))
-plotMA(des.rsem.results, ylim=c(-3,3), las=1, main="Shruken")
+DESeq2::plotMA(des.rsem.results, ylim=c(-3,3), las=1, main="Shruken")
 resMLE<-results(des.rsem.analysis, addMLE=TRUE)
 resMLE.plot<-data.frame(baseMean=resMLE$baseMean, log2FoldChange=resMLE$lfcMLE, sig=resMLE$padj<0.1)
 resMLE.plot$sig[is.na(resMLE.plot$sig)]<-FALSE

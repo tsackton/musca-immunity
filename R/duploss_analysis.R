@@ -83,17 +83,32 @@ cont_res_broad=glht(musca.imm.test.br, linfct=cont_test)
 summary(cont_res_narrow)
 summary(cont_res_broad)
 
+#is this driven by something funny going on in Drosophila (streamlined genomes)? Look at different families separately
+#do this with family-based linear regression and specific contrasts
+all.pois$family = factor(all.pois$family, levels=c("Muscidae", "Diptera", "Drosophilidae", "Glossinidae", "Culicidae"))
+fam.imm.test<-glm(count ~ type*family*immune.narrow, offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root" & family != "Diptera")))
+fam.imm.test.dup<-glm(count ~ family*immune.narrow, offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type=="dup" & nodeclass != "root" & family != "Diptera")))
+fam.imm.test.loss<-glm(count ~ family*immune.narrow, offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type=="loss" & nodeclass != "root" & family != "Diptera")))
+fam.imm.test.tot<-glm(count ~ family*immune.narrow, offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type=="total" & nodeclass != "root" & family != "Diptera")))
+
+#what about just in musca?
+muscaonly.imm<-glm(count ~ immune.narrow, offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type=="dup" & nodeclass != "root" & family == "Muscidae")))
+muscaonly.imm.br<-glm(count ~ immune.broad, offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type=="dup" & nodeclass != "root" & family == "Muscidae")))
+summary(glm(count ~ immune.narrow, offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type=="dup" & nodeclass != "root" & family == "Glossinidae"))))
+summary(glm(count ~ immune.narrow, offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type=="dup" & nodeclass != "root" & family == "Culicidae"))))
+summary(glm(count ~ immune.narrow, offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type=="dup" & nodeclass != "root" & family == "Drosophilidae"))))
+
 
 #now test by immune class
 musca.immclass.test<-glm(count ~ type*musca*dmel.imm, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
-muscaVdipt_rec_dup=matrix(c(1,0,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0),nrow=1)-matrix(c(1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),nrow=1, dimnames=list(c("muscaVdipt_rec_dup")))
-muscaVdipt_sig_dup=matrix(c(1,0,1,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0),nrow=1)-matrix(c(1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),nrow=1, dimnames=list(c("muscaVdipt_sig_dup")))
-muscaVdipt_mod_dup=matrix(c(1,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0),nrow=1)-matrix(c(1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0),nrow=1, dimnames=list(c("muscaVdipt_mod_dup")))
-muscaVdipt_eff_dup=matrix(c(1,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0),nrow=1)-matrix(c(1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0),nrow=1, dimnames=list(c("muscaVdipt_eff_dup")))
+muscaVdipt_rec_dup=matrix(c(0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0),nrow=1)-matrix(c(0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),nrow=1, dimnames=list(c("muscaVdipt_rec_dup")))
+muscaVdipt_sig_dup=matrix(c(0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0),nrow=1)-matrix(c(0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),nrow=1, dimnames=list(c("muscaVdipt_sig_dup")))
+muscaVdipt_mod_dup=matrix(c(0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0),nrow=1)-matrix(c(0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0),nrow=1, dimnames=list(c("muscaVdipt_mod_dup")))
+muscaVdipt_eff_dup=matrix(c(0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0),nrow=1)-matrix(c(0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0),nrow=1, dimnames=list(c("muscaVdipt_eff_dup")))
 byclass_cont=rbind(muscaVdipt_rec_dup,muscaVdipt_eff_dup, muscaVdipt_mod_dup, muscaVdipt_sig_dup)
 colnames(byclass_cont)=names(coef(musca.immclass.test))
 summary(glht(musca.immclass.test, linfct=byclass_cont))
-
+summary(musca.immclass.test)
 
 #for each gene familiy
 
@@ -101,21 +116,46 @@ musca.immhmm.test<-glm(count ~ type*musca*hmm, offset=log(br), family="poisson",
 #make tests
 fams=c("BGBP", "CEC", "CLIPA", "CLIPB", "CLIPC", "CLIPD", "CTL", "FREP", "GALE", "HPX", "IGSF", "LYS", "MD2L", "NFKB", "NIM", "PGRP", "PPO", "SPRN", "SRCA", "SRCB", "SRCC", "TEP", "TLL", "TPX", "TSF")
 hmm_conts<-matrix(0, ncol=length(names(coef(musca.immhmm.test))), nrow=length(fams), dimnames=list(fams,names(coef(musca.immhmm.test))))
-hmm_conts[,3]=1
+hmm_conts[,3]=0
 for (i in 1:25) {
   hmm_conts[i,i+54]=1  
 }
-
 summary(glht(musca.immhmm.test, linfct=hmm_conts))
 
 #confirm with total, no type
 musca.immhmmtot.test<-glm(count ~ musca*hmm, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="total" & nodeclass != "root"))
 hmm_conts2<-matrix(0, ncol=length(names(coef(musca.immhmmtot.test))), nrow=length(fams), dimnames=list(fams,names(coef(musca.immhmmtot.test))))
-hmm_conts2[,2]=1
+hmm_conts2[,2]=0
 for (i in 1:25) {
   hmm_conts2[i,i+27]=1  
 }
 summary(glht(musca.immhmmtot.test, linfct=hmm_conts2))
+
+#rec, sig, mod, eff by family - duplication
+musca.immclass.byfam<-glm(count ~ type*family*dmel.imm, offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root" & family != "Diptera")))
+
+byfam.contrasts<-matrix(data=0, nrow=12, ncol=length(coef(musca.immclass.byfam)))
+rownames(byfam.contrasts)=c("Dros_rec", "Glos_rec", "Cul_rec", "Dros_sig", "Glos_sig", "Cul_sig", "Dros_mod", "Glos_mod", "Cul_mod", "Dros_eff", "Glos_eff", "Cul_eff")
+for (i in 1:12) {
+  byfam.contrasts[i, i+16] = -1
+}
+colnames(byfam.contrasts)=names(coef(musca.immclass.byfam))
+summary(glht(musca.immclass.byfam, linfct=byfam.contrasts))
+
+#by lineage for a specific gene family
+for (test in c("TEP", "LYS", "CEC")) {
+  selected_fam=test
+  musca.immhmm.family<-glm(count ~ type*family*(hmm==selected_fam), offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root" & family != "Diptera" & family != "Glossinidae")))
+  #make tests
+  fams=c("Dros", "Cul")
+  hmm_conts<-matrix(0, ncol=length(names(coef(musca.immhmm.family))), nrow=length(fams), dimnames=list(fams,names(coef(musca.immhmm.family))))
+  
+  for (i in 1:nrow(hmm_conts)) {
+    hmm_conts[i,i+8]=-1  
+  }
+  print(summary(glht(musca.immhmm.family, linfct=hmm_conts)))
+}
+
 
 #look at per-ogs rate
 cons.pois$musca=factor(cons.pois$musca,levels=c("other_dipt", "musca"))
@@ -126,4 +166,11 @@ cons.rate.musca.tot$qval = p.adjust(cons.rate.musca.tot$pval, method="fdr")
 
 #add annotations
 cons.rate.musca.tot <- merge(cons.rate.musca.tot, unique(all.pois[,c("ogs", "hmm", "dmel.imm", "immune.narrow", "immune.broad")]), by="ogs")
+
+#fisher tests
+fisher.test(table(cons.rate.musca.tot$qval < 0.05 & cons.rate.musca.tot$rate > 0, cons.rate.musca.tot$immune.broad))
+table(cons.rate.musca.tot$qval < 0.05 & cons.rate.musca.tot$rate > 0, cons.rate.musca.tot$immune.broad)
+
+cons.rate.musca.tot[cons.rate.musca.tot$qval < 0.05 & cons.rate.musca.tot$rate > 0 & cons.rate.musca.tot$immune.broad==T,]
+
 

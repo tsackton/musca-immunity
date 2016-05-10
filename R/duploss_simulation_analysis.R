@@ -33,7 +33,7 @@ table(sim.root.pois$rate[sim.root.pois$type=="dup"])/length(unique(sim.root.pois
 
 #now look at each rate subset, in a few ways
 require(plyr)
-sim.rate.est.all<-ddply(subset(sim.root.pois, type != "total"), .(rate), summarize, dup.rate=coef(glm(count ~ type + offset(log(br)), family="poisson"))[1], loss.rate=coef(glm(count ~ type + offset(log(br)), family="poisson"))[2])
+sim.rate.est.all<-ddply(subset(sim.root.pois, type != "total"), .(rate), summarize, dup.rate=coef(glm(count ~ type, offset=log(br), family="poisson"))[1], loss.rate=coef(glm(count ~ type, offset=log(br), family="poisson"))[2])
 sim.rate.est.all$loss.rate = sim.rate.est.all$dup.rate + sim.rate.est.all$loss.rate
 sim.rate.est.tot<-ddply(subset(sim.root.pois, type == "total"), .(rate), summarize, tot.rate=coef(glm(count ~ offset(log(br)), family="poisson"))[1], tot.err=coef(summary(glm(count ~ offset(log(br)), family="poisson")))[2])
 

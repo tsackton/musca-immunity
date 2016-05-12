@@ -26,22 +26,24 @@ all.pois$musca = factor(all.pois$musca, levels=c("other_dipt", "musca"))
 all.pois$hmm = factor(all.pois$hmm)
 all.pois$hmm = relevel(all.pois$hmm, ref="none")
 all.pois = subset(all.pois, events > 0)
+all.pois$immune.narrow = as.factor(all.pois$dmel.imm!="none")
+all.pois$immune.broad = all.pois$immune.narrow
+all.pois$immune.broad[all.pois$hmm != "none"] = TRUE
+
 
 #now run models on all.pois
 #first, look at main results -- recognition, modulation, signaling, and effector differences on musca branch and overall
 require(multcomp)
 
-all.pois$immune.narrow = as.factor(all.pois$dmel.imm!="none")
-all.pois$immune.broad = all.pois$immune.narrow
-all.pois$immune.broad[all.pois$hmm != "none"] = TRUE
-
 #result 1 -- musca vs other dipts for immune vs non-immune
-musca.imm.test<-glm(count ~ type*musca*immune.narrow, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
+musca.imm.test.glm<-glm(count ~ type*musca*immune.narrow, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
+musca.imm.test.glmer2<-glmer(count ~ type*musca*immune.narrow+offset(log(br)) + (1|ogs:immune.narrow), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
 musca.imm.test.dup<-glm(count ~ musca*immune.narrow, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="dup" & nodeclass != "root"))
 musca.imm.test.loss<-glm(count ~ musca*immune.narrow, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="loss" & nodeclass != "root"))
 musca.imm.test.tot<-glm(count ~ musca*immune.narrow, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="total" & nodeclass != "root"))
 
-musca.imm.test.br<-glm(count ~ type*musca*immune.broad, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
+#musca.imm.test.br<-glm(count ~ type*musca*immune.broad, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
+musca.imm.test.br<-glm.nb(count ~ type*musca*immune.broad + offset(log(br)), data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
 musca.imm.test.dup.br<-glm(count ~ musca*immune.broad, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="dup" & nodeclass != "root"))
 musca.imm.test.loss.br<-glm(count ~ musca*immune.broad, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="loss" & nodeclass != "root"))
 musca.imm.test.tot.br<-glm(count ~ musca*immune.broad, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="total" & nodeclass != "root"))
@@ -86,6 +88,8 @@ summary(cont_res_broad)
 #is this driven by something funny going on in Drosophila (streamlined genomes)? Look at different families separately
 #do this with family-based linear regression and specific contrasts
 all.pois$family = factor(all.pois$family, levels=c("Muscidae", "Diptera", "Drosophilidae", "Glossinidae", "Culicidae"))
+#fam.imm.test<-glm.nb(count ~ type*family*immune.narrow + offset(log(br)), data=droplevels(subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root" & family != "Diptera")))
+
 fam.imm.test<-glm(count ~ type*family*immune.narrow, offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root" & family != "Diptera")))
 fam.imm.test.dup<-glm(count ~ family*immune.narrow, offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type=="dup" & nodeclass != "root" & family != "Diptera")))
 fam.imm.test.loss<-glm(count ~ family*immune.narrow, offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type=="loss" & nodeclass != "root" & family != "Diptera")))
@@ -101,6 +105,7 @@ summary(glm(count ~ immune.narrow, offset=log(br), family="poisson", data=drople
 
 #now test by immune class
 musca.immclass.test<-glm(count ~ type*musca*dmel.imm, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
+#musca.immclass.test<-glm.nb(count ~ type*musca*dmel.imm+offset(log(br)), data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
 muscaVdipt_rec_dup=matrix(c(0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0),nrow=1)-matrix(c(0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),nrow=1, dimnames=list(c("muscaVdipt_rec_dup")))
 muscaVdipt_sig_dup=matrix(c(0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0),nrow=1)-matrix(c(0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),nrow=1, dimnames=list(c("muscaVdipt_sig_dup")))
 muscaVdipt_mod_dup=matrix(c(0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0),nrow=1)-matrix(c(0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0),nrow=1, dimnames=list(c("muscaVdipt_mod_dup")))
@@ -113,6 +118,7 @@ summary(musca.immclass.test)
 #for each gene familiy
 
 musca.immhmm.test<-glm(count ~ type*musca*hmm, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
+#musca.immhmm.test<-glm.nb(count ~ type*musca*hmm+offset(log(br)), data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
 #make tests
 fams=c("BGBP", "CEC", "CLIPA", "CLIPB", "CLIPC", "CLIPD", "CTL", "FREP", "GALE", "HPX", "IGSF", "LYS", "MD2L", "NFKB", "NIM", "PGRP", "PPO", "SPRN", "SRCA", "SRCB", "SRCC", "TEP", "TLL", "TPX", "TSF")
 hmm_conts<-matrix(0, ncol=length(names(coef(musca.immhmm.test))), nrow=length(fams), dimnames=list(fams,names(coef(musca.immhmm.test))))

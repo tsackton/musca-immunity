@@ -100,28 +100,6 @@ write.table(upreg.df, file="../results/GO_BP_upreg.tsv", sep="\t", quote=F, row.
 write.table(downreg.df.m, file="../results/GO_MF_downreg.tsv", sep="\t", quote=F, row.names=F)
 write.table(downreg.df, file="../results/GO_BP_downreg.tsv", sep="\t", quote=F, row.names=F)
 
-
-#verify similar result with limma-voom
-##NOT RUN##
-library(edgeR)
-library(limma)
-
-md.dge<-DGEList(counts=counts(des.rsem.input, normalized=F))
-md.dge<-calcNormFactors(md.dge)
-md.design<-data.frame(unf=c(1,1,1,1,1,1), inf=c(0,0,0,1,1,1))
-md.v<-voomWithQualityWeights(md.dge,md.design,plot=T,normalization="none")
-md.fit<-lmFit(md.v,md.design)
-md.fit<-eBayes(md.fit)
-
-#construct indicies for limma-based gene set tests
-musca.golist<-dlply(musca.go[,c("go_id", "gene")], .(go_id), .fun=function(x) unique(c(as.character(x$gene))))
-limma.go<-ids2indices(musca.golist, rownames(md.v))
-
-#run the ROMER test from limma to get GO categories with evidence for upregulation, downregulation or regulation overall ('mixed')
-romer.gse<-romer(y=md.v, index=limma.go, design=md.design, contrast=2)
-romer.df <- as.data.frame(romer.gse)
-romer.df$UpAdj<-p.adjust(romer.df$Up, method="fdr")
-
 ##DMEL ANALYSIS##
 
 #source("https://bioconductor.org/biocLite.R")
@@ -167,43 +145,7 @@ downreg.df.dmel<-summary(downreg.over.res.dmel, pvalue=1, categorySize=5)
 downreg.df.dmel$padj<-p.adjust(downreg.df.dmel$Pvalue, method="holm")
 
 
-##NOT RUN BELOW##
-
-#molecular function
-up.params.m<-GSEAGOHyperGParams(name="Musca upreg GSEA",
-                                geneSetCollection=musca.gsc,
-                                geneIds = upreg,
-                                universeGeneIds = universe,
-                                ontology = "MF",
-                                pvalueCutoff = 0.05,
-                                conditional = T,
-                                testDirection = "over")
-
-down.params.m<-GSEAGOHyperGParams(name="Musca downreg GSEA",
-                                  geneSetCollection=musca.gsc,
-                                  geneIds = downreg,
-                                  universeGeneIds = universe,
-                                  ontology = "MF",
-                                  pvalueCutoff = 0.05,
-                                  conditional = T,
-                                  testDirection = "over")
-
-#perform tests
-upreg.over.res.m<-hyperGTest(up.params.m)
-downreg.over.res.m<-hyperGTest(down.params.m)
-
-#multiple test correction
-upreg.df.m<-summary(upreg.over.res.m, pvalue=1, categorySize=5)
-upreg.df.m$padj<-p.adjust(upreg.df.m$Pvalue, method="holm")
-downreg.df.m<-summary(downreg.over.res.m, pvalue=1, categorySize=5)
-downreg.df.m$padj<-p.adjust(downreg.df.m$Pvalue, method="holm")
-
-
 #write results out
-write.table(upreg.df.m, file="../results/GO_MF_upreg.tsv", sep="\t", quote=F, row.names=F)
-write.table(upreg.df, file="../results/GO_BP_upreg.tsv", sep="\t", quote=F, row.names=F)
-write.table(downreg.df.m, file="../results/GO_MF_downreg.tsv", sep="\t", quote=F, row.names=F)
-write.table(downreg.df, file="../results/GO_BP_downreg.tsv", sep="\t", quote=F, row.names=F)
-
-
+write.table(upreg.df.dmel, file="../results/GO_BP_upreg_dmel.tsv", sep="\t", quote=F, row.names=F)
+write.table(downreg.df.dmel, file="../results/GO_BP_downreg_dmel.tsv", sep="\t", quote=F, row.names=F)
 

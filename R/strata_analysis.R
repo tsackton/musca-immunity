@@ -11,10 +11,10 @@ mus.strat<-merge(mus.strat, protlen, by.x="protein", by.y="isoform")
 #proportion of young genes induced compared to old genes
 #first, try a regular logistic regression
 
-strata.logit<-glm(as.numeric(difexp==1) ~ min.age, family="binomial", data=mus.strat)
+strata.logit<-glm(as.numeric(difexp==1) ~ min.age, family="binomial", data=mus.strat[!is.na(mus.strat$difexp),])
 
 #also try with age ranks instead of ages, which treats age as a step function
-strata.ordered<-glm(as.numeric(difexp==1) ~ rank(min.age), family="binomial", data=mus.strat)
+strata.ordered<-glm(as.numeric(difexp==1) ~ rank(min.age), family="binomial", data=mus.strat[!is.na(mus.strat$difexp),])
 
 
 #now generate corrected values of min age based on expression and length
@@ -33,7 +33,7 @@ mus.strat$min.age.norm<-mus.strat$min.age-(mus.strat$scaled.exp*exp.mod)
 plot(mus.strat$min.age.norm ~ mus.strat$min.age, xlab="Raw age", ylab="Normalized age", col="gray30", cex=0.5)
 
 #now use the normalized age in analysis too
-strata.logit.norm<-glm(as.numeric(difexp==1) ~ as.vector(min.age.norm), family="binomial", data=mus.strat)
+strata.logit.norm<-glm(as.numeric(difexp==1) ~ as.vector(min.age.norm), family="binomial", data=mus.strat[!is.na(mus.strat$difexp),])
 
 #also look at broader cats: ancient (>~900), old (~600-800), intermediate (~100-400), young(<~100) 
 mus.strat$age.cat=cut(mus.strat$min.age, breaks=c(-400,(85+275)/2, (355+642)/2, (790+910)/2, 2000), label=c("young", "intermediate", "old", "ancient"), ordered_result=T)

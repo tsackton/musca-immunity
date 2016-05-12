@@ -36,14 +36,14 @@ all.pois$immune.broad[all.pois$hmm != "none"] = TRUE
 require(multcomp)
 
 #result 1 -- musca vs other dipts for immune vs non-immune
-musca.imm.test.glm<-glm(count ~ type*musca*immune.narrow, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
-musca.imm.test.glmer2<-glmer(count ~ type*musca*immune.narrow+offset(log(br)) + (1|ogs:immune.narrow), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
+musca.imm.test<-glm(count ~ type*musca*immune.narrow, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
+#musca.imm.test.glmer2<-glmer(count ~ type*musca*immune.narrow+offset(log(br)) + (1|ogs:immune.narrow), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
 musca.imm.test.dup<-glm(count ~ musca*immune.narrow, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="dup" & nodeclass != "root"))
 musca.imm.test.loss<-glm(count ~ musca*immune.narrow, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="loss" & nodeclass != "root"))
 musca.imm.test.tot<-glm(count ~ musca*immune.narrow, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="total" & nodeclass != "root"))
 
-#musca.imm.test.br<-glm(count ~ type*musca*immune.broad, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
-musca.imm.test.br<-glm.nb(count ~ type*musca*immune.broad + offset(log(br)), data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
+musca.imm.test.br<-glm(count ~ type*musca*immune.broad, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
+#musca.imm.test.br<-glm.nb(count ~ type*musca*immune.broad + offset(log(br)), data=subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root"))
 musca.imm.test.dup.br<-glm(count ~ musca*immune.broad, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="dup" & nodeclass != "root"))
 musca.imm.test.loss.br<-glm(count ~ musca*immune.broad, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="loss" & nodeclass != "root"))
 musca.imm.test.tot.br<-glm(count ~ musca*immune.broad, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="total" & nodeclass != "root"))
@@ -164,18 +164,23 @@ for (test in c("TEP", "LYS", "CEC")) {
 
 
 #look at per-ogs rate
-cons.pois$musca=factor(cons.pois$musca,levels=c("other_dipt", "musca"))
-cons.rate.musca<-ddply(cons.pois, .(ogs, type), summarize, rate=coef(summary(glm(count ~ musca + offset(log(br)), family=poisson)))[2,1], pval=coef(summary(glm(count ~ musca + offset(log(br)), family=poisson)))[2,4])
-
-cons.rate.musca.tot = cons.rate.musca[cons.rate.musca$type=="total",]
-cons.rate.musca.tot$qval = p.adjust(cons.rate.musca.tot$pval, method="fdr")
+per.ogs.data<-droplevels(subset(all.pois, subset=="conserved" & type=="total" & nodeclass != "root"))
+per.ogs.results<-data.frame(ogs=character(length(unique(per.ogs.data$ogs))), rate=numeric(length(unique(per.ogs.data$ogs))), pval=numeric(length(unique(per.ogs.data$ogs))), stringsAsFactors=F)
+ogs.list<-as.character(unique(per.ogs.data$ogs))
+for (i in 1:length(ogs.list)) {
+  ogs<-ogs.list[i]
+  ogs.data<-per.ogs.data[per.ogs.data$ogs == ogs,]
+  per.ogs.results[i,1]=ogs
+  per.ogs.results[i,c(2,3)]=coef(summary(glm(count ~ musca + offset(log(br)), family=poisson, data=ogs.data)))[2,c(1,4)]
+}
+per.ogs.results$qval = p.adjust(per.ogs.results$pval, method="fdr")
 
 #add annotations
-cons.rate.musca.tot <- merge(cons.rate.musca.tot, unique(all.pois[,c("ogs", "hmm", "dmel.imm", "immune.narrow", "immune.broad")]), by="ogs")
+per.ogs.results.annot <- merge(per.ogs.results, unique(all.pois[,c("ogs", "hmm", "dmel.imm", "immune.narrow", "immune.broad")]), by="ogs")
 
 #fisher tests
-fisher.test(table(cons.rate.musca.tot$qval < 0.05 & cons.rate.musca.tot$rate > 0, cons.rate.musca.tot$immune.broad))
-table(cons.rate.musca.tot$qval < 0.05 & cons.rate.musca.tot$rate > 0, cons.rate.musca.tot$immune.broad)
+fisher.test(table(per.ogs.results.annot$qval < 0.05 & per.ogs.results.annot$rate > 0, per.ogs.results.annot$immune.broad))
+table(per.ogs.results.annot$qval < 0.05 & per.ogs.results.annot$rate > 0, per.ogs.results.annot$immune.broad)
 
 cons.rate.musca.tot[cons.rate.musca.tot$qval < 0.05 & cons.rate.musca.tot$rate > 0 & cons.rate.musca.tot$immune.broad==T,]
 

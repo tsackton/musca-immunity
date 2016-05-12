@@ -182,6 +182,6 @@ per.ogs.results.annot <- merge(per.ogs.results, unique(all.pois[,c("ogs", "hmm",
 fisher.test(table(per.ogs.results.annot$qval < 0.05 & per.ogs.results.annot$rate > 0, per.ogs.results.annot$immune.broad))
 table(per.ogs.results.annot$qval < 0.05 & per.ogs.results.annot$rate > 0, per.ogs.results.annot$immune.broad)
 
-cons.rate.musca.tot[cons.rate.musca.tot$qval < 0.05 & cons.rate.musca.tot$rate > 0 & cons.rate.musca.tot$immune.broad==T,]
+per.ogs.results.annot[per.ogs.results.annot$qval < 0.05 & per.ogs.results.annot$rate > 0 & per.ogs.results.annot$immune.broad==T,]
 
 

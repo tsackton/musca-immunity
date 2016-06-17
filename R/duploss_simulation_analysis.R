@@ -37,11 +37,6 @@ sim.rate.est.all<-ddply(subset(sim.root.pois, type != "total"), .(rate), summari
 sim.rate.est.all$loss.rate = sim.rate.est.all$dup.rate + sim.rate.est.all$loss.rate
 sim.rate.est.tot<-ddply(subset(sim.root.pois, type == "total"), .(rate), summarize, tot.rate=coef(glm(count ~ offset(log(br)), family="poisson"))[1], tot.err=coef(summary(glm(count ~ offset(log(br)), family="poisson")))[2])
 
-#trying negative binomial
-sim.rate.est.tot.nb<-ddply(subset(sim.root.pois, type == "total"), .(rate), summarize, tot.rate=coef(glm.nb(count ~ offset(log(br)))[1]))
-#pooled data
-sim.rate.est.pooled.nb<-glm.nb(count ~ offset(log(br)), data=(subset(sim.root.pois, type == "total")))
-
 
 #make final simulation dataset
 sim.rates<-merge(sim.rate.est.all, sim.rate.est.tot, by="rate")

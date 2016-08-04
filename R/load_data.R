@@ -1,4 +1,4 @@
-#Final Version. April 2016
+#Final Version. August 2016
 
 #load data into R and check for consistency#
 #This code loads transcript and protein ids, protein lengthts, phylostratigraphic data, immune hmm calls, signal peptide inference, and orthogroup data from the OMA/Treefix pipeline

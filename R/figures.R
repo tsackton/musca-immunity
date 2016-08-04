@@ -148,22 +148,21 @@ dev.off()
 pdf(file="Figure7.pdf", width=4, height=3)
 par(cex=0.7, mar=c(3,4,3,1))
 library(plotrix)
-fig7data<-summary(glht(musca.immclass.test, linfct=byclass_cont))$test
-fig7fam<-summary(glht(musca.immclass.byfam, linfct=byfam.contrasts))$test
-plotCI(x=c(1,3,5,7), y=fig7data$coefficients[c(1,4,3,2)], uiw=fig7data$sigma[c(1,4,3,2)], col="black", pch=16, xlab="", xaxt="n", bty="n", ylim=c(-2,3), xlim=c(0.8,8.4), ylab="Duplication Rate (Musca vs Other Dipterans)", las=2, cex=1.2)
-axis(1, at=c(1.5,3.5,5.5,7.5), labels=c("Recognition", "Signaling", "Modulation", "Effector"), lwd=0, lwd.ticks=0, mgp=c(0,0.5,0))
-mtext(1, line=1.7, text="Category", cex=0.75)
+fig7data<-summary(glht(musca.immclass.test.conv.ok$optimx.nlminb, linfct=byclass_cont))$test
+fig7fam<-summary(glht(musca.immclass.byfam.2, linfct=byfam.contrasts))$test
+plotCI(x=c(1,1.4,1.8,2.2), y=fig7data$coefficients[c(1,4,3,2)], uiw=fig7data$sigma[c(1,4,3,2)], col=c("darkgreen", "purple", "blue", "red"), pch=16, xlab="", xaxt="n", bty="n", ylim=c(-2,3), xlim=c(0.8,8.4), ylab="Duplication Rate (Musca vs Other Dipterans)", las=2, cex=1.2)
+axis(1, at=c(1.5,3.5,5.5,7.5), labels=c("All Dipterans", "vs Mosquito", "vs Glossina", "vs Drosophila"), lwd=0, lwd.ticks=0, mgp=c(0,0.5,0))
+mtext(1, line=1.9, text="Comparison", cex=0.75)
 abline(h=0, lwd=2, lty="dotted")
-plotCI(x=c(1.4,1.8,2.2), y=fig7fam$coef[c(1,2,3)], uiw=fig7fam$sigma[c(1,2,3)], col=c("purple", "darkgreen", "blue"), add=T)
-plotCI(x=c(3.4,3.8,4.2), y=fig7fam$coef[c(4,5,6)], uiw=fig7fam$sigma[c(4,5,6)], col=c("purple", "darkgreen", "blue"), add=T)
-plotCI(x=c(5.4,5.8,6.2), y=fig7fam$coef[c(7,8,9)], uiw=fig7fam$sigma[c(7,8,9)], col=c("purple", "darkgreen", "blue"), add=T)
-plotCI(x=c(7.4,7.8,8.2), y=fig7fam$coef[c(10,11,12)], uiw=fig7fam$sigma[c(10,11,12)], col=c("purple", "darkgreen", "blue"), add=T)
+plotCI(x=c(3,3.4,3.8,4.2), y=fig7fam$coef[c(3,6,9,12)], uiw=fig7fam$sigma[c(3,6,9,12)], col=c("darkgreen", "purple", "blue", "red"), pch=16, cex=1.2, add=T)
+plotCI(x=c(5,5.4,5.8,6.2), y=fig7fam$coef[c(2,5,8,11)], uiw=fig7fam$sigma[c(2,5,8,11)], col=c("darkgreen", "purple", "blue", "red"), pch=16, cex=1.2, add=T)
+plotCI(x=c(7,7.4,7.8,8.2), y=fig7fam$coef[c(1,4,7,10)], uiw=fig7fam$sigma[c(1,4,7,10)], col=c("darkgreen", "purple", "blue", "red"), pch=16, cex=1.2, add=T)
 abline(v=2.5)
 abline(v=4.5)
 abline(v=6.5)
-legend(x=0.8, y=4.2, legend=c("All Dipterans", "Mosquito", "Glossina", "Drosophila"), pch=16, col=c("black", "blue", "darkgreen", "purple"), bty="n", bg="white", ncol=4, box.lwd=0, xpd=NA, cex=0.8)
+legend(x=0.8, y=4.2, legend=c("Recognition", "Signaling", "Modulation", "Effector"), pch=16, col=c("darkgreen", "purple", "blue", "red"), bty="n", bg="white", ncol=4, box.lwd=0, xpd=NA, cex=0.8)
 
-positions=c(1,3,5,7,1.4,1.8,2.2,3.4,3.8,4.2,5.4,5.8,6.2,7.4,7.8,8.2)
+positions=c(1,1.4,1.8,2.2,3,5,7,3.4,5.4,7.4,3.8,5.8,7.8,4.2,6.2,8.2)
 p01=c(fig7data$pvalues[c(1,4,3,2)] < 0.01, fig7fam$pvalues < 0.01)
 p05=c(fig7data$pvalues[c(1,4,3,2)] < 0.05, fig7fam$pvalues < 0.05)
 p05[p01]=F
@@ -172,6 +171,3 @@ mtext(at=positions[p01], line=-1.3, text="**", cex=0.8)
 mtext(at=positions[p05], line=-1.3, text="*", cex=0.8)
 
 dev.off()
-
-#figure 8
-pdf(file="Figure8.pdf", width)

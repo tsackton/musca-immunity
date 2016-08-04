@@ -102,8 +102,8 @@ write.table(downreg.df, file="../results/GO_BP_downreg.tsv", sep="\t", quote=F, 
 
 ##DMEL ANALYSIS##
 
-#source("https://bioconductor.org/biocLite.R")
-#biocLite("org.Dm.eg.db")
+source("https://bioconductor.org/biocLite.R")
+biocLite("org.Dm.eg.db")
 library(org.Dm.eg.db)
 
 #define the background set as all genes not filtered in the difexp analysis, excluding those with an annotated immune function

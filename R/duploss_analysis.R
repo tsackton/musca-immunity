@@ -122,39 +122,66 @@ for (i in 1:12) {
 colnames(byfam.contrasts)=names(fixef(musca.immclass.byfam.2))
 summary(glht(musca.immclass.byfam.2, linfct=byfam.contrasts))
 
+
 #analysis by HMM-defined gene family
 musca.immhmm.test<-glmer(count ~ musca*hmm+offset(log(br))+(1|ogs), family="poisson", data=subset(all.pois, subset=="conserved" & type=="dup" & nodeclass != "root"))
-fams=c("BGBP", "CEC", "CLIPA", "CLIPB", "CLIPC", "CLIPD", "CTL", "FREP", "GALE", "HPX", "IGSF", "LYS", "MD2L", "NFKB", "NIM", "PGRP", "PPO", "SPRN", "SRCA", "SRCB", "SRCC", "TEP", "TLL", "TPX", "TSF")
-hmm_conts<-matrix(0, ncol=length(names(coef(musca.immhmm.test))), nrow=length(fams), dimnames=list(fams,names(coef(musca.immhmm.test))))
-hmm_conts[,3]=0
-for (i in 1:25) {
-  hmm_conts[i,i+54]=1  
-}
-summary(glht(musca.immhmm.test, linfct=hmm_conts))
 
-#confirm with total, no type
-musca.immhmmtot.test<-glm(count ~ musca*hmm, offset=log(br), family="poisson", data=subset(all.pois, subset=="conserved" & type=="total" & nodeclass != "root"))
-hmm_conts2<-matrix(0, ncol=length(names(coef(musca.immhmmtot.test))), nrow=length(fams), dimnames=list(fams,names(coef(musca.immhmmtot.test))))
-hmm_conts2[,2]=0
-for (i in 1:25) {
-  hmm_conts2[i,i+27]=1  
+#convergence failed, so let's try again with a different optimizer
+ss <- getME(musca.immhmm.test,c("theta","fixef"))
+musca.immhmm.test.2<-update(musca.immhmm.test, start=ss, control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
+
+#check for singulariy
+tt <- getME(musca.immhmm.test.2,"theta")
+ll <- getME(musca.immhmm.test.2,"lower")
+min(tt[ll==0])
+
+#check gradient calcs
+derivs1 <- musca.immhmm.test.2@optinfo$derivs
+sc_grad1 <- with(derivs1,solve(Hessian,gradient))
+max(abs(sc_grad1))
+
+dd <- update(musca.immhmm.test.2,devFunOnly=TRUE)
+pars <- unlist(getME(musca.immhmm.test.2,c("theta","fixef")))
+grad2 <- grad(dd,pars)
+hess2 <- hessian(dd,pars)
+sc_grad2 <- solve(hess2,grad2)
+max(pmin(abs(sc_grad2),abs(grad2)))
+
+#still not converging...hmmm.
+#get results anyway...will eventually try running with different optimizers
+
+##NOT RUN##
+
+#try with a bunch of optimizers
+musca.immhmm.test.conv<-allFit(musca.immhmm.test.2)
+is.OK<-sapply(musca.immhmm.test.conv, is, "merMod")
+musca.immhmm.test.conv.ok<-musca.immhmm.test.conv[is.OK]
+lapply(musca.immhmm.test.conv, function(x) x@optinfo$conv$lme4$messages)
+
+##</NOT RUN>
+
+
+fams=c("BGBP", "CEC", "CLIPA", "CLIPB", "CLIPC", "CLIPD", "CTL", "FREP", "GALE", "HPX", "IGSF", "LYS", "MD2L", "NFKB", "NIM", "PGRP", "PPO", "SPRN", "SRCA", "SRCB", "SRCC", "TEP", "TLL", "TPX", "TSF")
+
+hmm_conts<-matrix(0, ncol=length(names(fixef(musca.immhmm.test.2))), nrow=length(fams), dimnames=list(fams,names(fixef(musca.immhmm.test.2))))
+for (i in 1:length(fams)) {
+  hmm_conts[i,i+27]=1  
 }
-summary(glht(musca.immhmmtot.test, linfct=hmm_conts2))
+summary(glht(musca.immhmm.test.2, linfct=hmm_conts))
 
 #by lineage for a specific gene family
 for (test in c("TEP", "LYS", "CEC")) {
   selected_fam=test
-  musca.immhmm.family<-glm(count ~ type*family*(hmm==selected_fam), offset=log(br), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type!="total" & nodeclass != "root" & family != "Diptera" & family != "Glossinidae")))
+  musca.immhmm.family<-glmer(count ~ family*(hmm==selected_fam)+offset(log(br)) + (1|ogs), family="poisson", data=droplevels(subset(all.pois, subset=="conserved" & type=="dup" & nodeclass != "root" & family != "Diptera" & family != "Glossinidae")))
   #make tests
   fams=c("Dros", "Cul")
-  hmm_conts<-matrix(0, ncol=length(names(coef(musca.immhmm.family))), nrow=length(fams), dimnames=list(fams,names(coef(musca.immhmm.family))))
+  hmm_conts<-matrix(0, ncol=length(names(fixef(musca.immhmm.family))), nrow=length(fams), dimnames=list(fams,names(fixef(musca.immhmm.family))))
   
   for (i in 1:nrow(hmm_conts)) {
-    hmm_conts[i,i+8]=-1  
+    hmm_conts[i,i+4]=-1  
   }
   print(summary(glht(musca.immhmm.family, linfct=hmm_conts)))
 }
-
 
 #look at per-ogs rate
 per.ogs.data<-droplevels(subset(all.pois, subset=="conserved" & type=="total" & nodeclass != "root"))

@@ -19,12 +19,17 @@ mdom.dif$immune[!is.na(mdom.dif$dmel.imm) | !is.na(mdom.dif$hmm)]=T
 #verify assignments
 table(mdom.dif$dmel.imm, mdom.dif$hmm, mdom.dif$immune, useNA="ifany")
 
-#new tests for revised manuscript:
-with(mdom.dif[!is.na(mdom.dif$strata),], table(difexp, !is.na(dmel.imm))[3,2]/sum(!is.na(dmel.imm)))
-with(mdom.dif[!is.na(mdom.dif$strata),], table(difexp, !is.na(hmm))[3,2]/sum(!is.na(hmm)))
-with(mdom.dif[!is.na(mdom.dif$strata),], table(difexp, immune)[3,2]/sum(immune==T))
+#final version
+#dmel annotation
+with(mdom.dif[!is.na(mdom.dif$strata),], table(difexp==1 & !is.na(difexp), !is.na(dmel.imm)))
+fisher.test(with(mdom.dif[!is.na(mdom.dif$strata),], table(difexp==1 & !is.na(difexp), !is.na(dmel.imm))))
 
-fisher.test(with(mdom.dif[!is.na(mdom.dif$strata),], table(difexp==1, !is.na(dmel.imm))))
-fisher.test(with(mdom.dif[!is.na(mdom.dif$strata),], table(difexp==1, !is.na(hmm))))
+#hmm
+with(mdom.dif[!is.na(mdom.dif$strata),], table(difexp==1 & !is.na(difexp), !is.na(hmm)))
+fisher.test(with(mdom.dif[!is.na(mdom.dif$strata),], table(difexp==1 & !is.na(difexp), !is.na(hmm))))
 
+#overall
+with(mdom.dif[!is.na(mdom.dif$strata),], table(!is.na(hmm)))
+with(mdom.dif[!is.na(mdom.dif$strata),], table(!is.na(dmel.imm)))
+with(mdom.dif[!is.na(mdom.dif$strata),], table(difexp==1 & !is.na(difexp)))
 

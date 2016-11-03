@@ -2,7 +2,7 @@
 
 #figure 1 - MA plot
 library(DESeq2)
-pdf(file="Figure1.pdf", width=4, height=3)
+cairo_pdf(file="Figure1.pdf", width=3.25, height=2.5)
 par(mar=c(4.1,4.1,1,1), cex=0.5)
 plotMA(object = des.rsem.results, alpha=0.05, main="", ylim=c(-2.5,2.5), cex=.75, las=1, bty="l", cex.lab=1.1)
 legend("topleft", legend=c("Differentially regulated\n(5% FDR)"), bty="n", pch=16, col="red", cex=1)
@@ -77,7 +77,7 @@ dev.off()
 ##########
 #figure 4 --  logistic regression results for uncorrected or corrected gene age
 
-pdf("Figure4.pdf", width=8, height=4)
+cairo_pdf("Figure4.pdf", width=6.75, height=4)
 par(mar=c(4.2,4.1,1.8,2), cex=0.4, mfrow=c(1,3))
 
 #A
